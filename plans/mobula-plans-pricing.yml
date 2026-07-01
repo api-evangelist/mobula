@@ -1,0 +1,177 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Mobula
+providerId: mobula
+created: '2026-07-01'
+modified: '2026-07-01'
+reconciled: true
+tags:
+- Crypto
+- Web3
+- Market Data
+- Blockchain
+- Wallet
+- Real Time
+- Plans
+description: >-
+  Mobula prices its crypto market data API on a monthly credit (compute-unit)
+  model. Every plan includes a fixed monthly credit allowance; most REST calls
+  cost 1 credit, while heavier endpoints cost more (e.g. token security or DeFi
+  positions at 10 credits, batch price-history at 5 credits per asset).
+  WebSocket streams cost 1 credit per minute open plus the underlying endpoint
+  cost, and webhooks cost 1 credit per trigger. The Free and Start-up tiers are
+  fully self-serve; WebSocket (WSS) feeds unlock on Growth and Enterprise.
+notes: >-
+  Representative tiers and credit allowances as published on Mobula's pricing
+  pages; verify current tiers, prices, and per-endpoint credit weights on
+  https://mobula.io/pricing and https://docs.mobula.io/pricing.
+sources:
+- https://mobula.io/pricing
+- https://docs.mobula.io/pricing
+plans:
+- id: mobula-free
+  name: Free
+  type: free
+  description: >-
+    Free self-serve tier with 10,000 monthly credits, a free API key, and full
+    REST access. Enough for personal projects, prototypes, and low-frequency
+    automations. Discord support.
+  entries:
+  - label: Monthly Credits
+    name: credits
+    type: request
+    metric: credits
+    limit: 10000
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0.00
+    userMultiplied: false
+  elements:
+  - name: Market Data
+  - name: Multi-Data
+  - name: Market History
+  - name: Pairs and OHLCV
+  - name: Metadata
+  - name: Wallet Portfolio
+  - name: Wallet History and Transactions
+  - name: Search and Query
+- id: mobula-startup
+  name: Start-up
+  type: paid
+  description: >-
+    Entry paid tier with 125,000 monthly credits for growing applications.
+    Discord support.
+  entries:
+  - label: Monthly Fee
+    name: subscription
+    type: flat
+    metric: subscription
+    limit: 1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $50/month
+    userMultiplied: false
+  - label: Monthly Credits
+    name: credits
+    type: request
+    metric: credits
+    limit: 125000
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: included
+    userMultiplied: false
+  elements:
+  - name: Market Data
+  - name: Multi-Data
+  - name: Market History
+  - name: Pairs and OHLCV
+  - name: Metadata
+  - name: Wallet Portfolio
+  - name: Wallet History and Transactions
+  - name: Search and Query
+- id: mobula-growth
+  name: Growth
+  type: paid
+  description: >-
+    Growth tier with 1,250,000 monthly credits, real-time WebSocket (WSS)
+    streaming feeds, and 24/7 support via Telegram, Discord, and Slack.
+  entries:
+  - label: Monthly Fee
+    name: subscription
+    type: flat
+    metric: subscription
+    limit: 1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $400/month
+    userMultiplied: false
+  - label: Monthly Credits
+    name: credits
+    type: request
+    metric: credits
+    limit: 1250000
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: included
+    userMultiplied: false
+  - label: WebSocket Streaming
+    name: websocket
+    type: usage
+    metric: credits
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: 1 credit per minute open plus underlying endpoint cost
+    userMultiplied: false
+  elements:
+  - name: All REST APIs
+  - name: Realtime Feed (WSS)
+  - name: Webhooks
+- id: mobula-enterprise
+  name: Enterprise
+  type: enterprise
+  description: >-
+    Enterprise tier with unlimited credits, WebSocket feeds, custom endpoints,
+    indexing, a 99.9% SLA, and dedicated 24/7 support. Contact Mobula sales.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: from $750/month, contact sales
+    userMultiplied: false
+  elements:
+  - name: Unlimited Credits
+  - name: Custom Endpoints
+  - name: Dedicated Indexing
+  - name: 99.9% SLA
+  - name: Realtime Feed (WSS)
+creditWeights:
+- endpoint: most REST endpoints
+  credits: 1
+- endpoint: /token/security
+  credits: 10
+- endpoint: /wallet/defi-positions
+  credits: 10
+- endpoint: batch price-history (POST)
+  credits: 5 per asset
+- endpoint: WebSocket stream
+  credits: 1 per minute open plus underlying endpoint cost
+- endpoint: webhook trigger
+  credits: 1 per trigger
+- endpoint: indexing worker hour
+  credits: 500
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

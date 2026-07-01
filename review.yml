@@ -1,0 +1,87 @@
+aid: mobula
+name: Mobula
+review:
+  question: Does Mobula expose a documented public WebSocket API?
+  answer: true
+  date: '2026-07-01'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: true
+  asyncapiScopeNote: |
+    Mobula publishes a genuine bidirectional WebSocket surface at
+    wss://api.mobula.io (and dedicated streams under
+    wss://stream.mobula.io/stream/*). An AsyncAPI 2.6 document was created at
+    asyncapi/mobula-asyncapi.yml modeling the real-time market-data and
+    wallet-portfolio subscription streams over WebSocket (wss). This is a true
+    WebSocket transport, not HTTP Server-Sent Events.
+findings:
+  summary: |
+    Mobula does expose a documented public WebSocket API. In addition to its
+    REST surface under https://api.mobula.io/api/1, Mobula documents a real-time
+    WebSocket feed at wss://api.mobula.io where a client sends a JSON subscribe
+    message (type market or wallet, with an authorization API key and a payload
+    of assets or a wallet address) and receives JSON updates roughly every 5
+    seconds with no caching. A market subscription can track up to 100 assets.
+    Mobula additionally documents a family of dedicated streams under
+    wss://stream.mobula.io/stream/* (ohlcv, balance, market-details,
+    token-details, positions, fast-trades, and more). Realtime WSS feeds are
+    available on Mobula's Growth and Enterprise plans.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.mobula.io/api/1
+      documented: true
+    - protocol: WebSocket
+      scheme: wss
+      baseURL: wss://api.mobula.io
+      documented: true
+      note: Bidirectional JSON subscribe/update streams for market data and wallet portfolios.
+    - protocol: WebSocket
+      scheme: wss
+      baseURL: wss://stream.mobula.io/stream
+      documented: true
+      note: Dedicated per-topic streams (ohlcv, balance, market-details, token-details, positions, and others).
+  endpointsConfirmedRest:
+    - GET https://api.mobula.io/api/1/market/data
+    - GET https://api.mobula.io/api/1/market/multi-data
+    - GET https://api.mobula.io/api/1/market/history
+    - GET https://api.mobula.io/api/1/market/pairs
+    - GET https://api.mobula.io/api/1/market/pair
+    - GET https://api.mobula.io/api/1/metadata
+    - GET https://api.mobula.io/api/1/wallet/portfolio
+    - GET https://api.mobula.io/api/1/wallet/history
+    - GET https://api.mobula.io/api/1/wallet/transactions
+    - GET https://api.mobula.io/api/1/search
+    - GET https://api.mobula.io/api/1/market/query
+  endpointsConfirmedWebSocket:
+    - wss://api.mobula.io (market subscribe / update)
+    - wss://api.mobula.io (wallet subscribe / update)
+    - wss://stream.mobula.io/stream/ohlcv
+    - wss://stream.mobula.io/stream/balance
+    - wss://stream.mobula.io/stream/market-details
+    - wss://stream.mobula.io/stream/token-details
+sources:
+  - url: https://docs.mobula.io/rest-api-reference/introduction
+    type: APIReference
+    note: REST base https://api.mobula.io/api/1; API key sent in the Authorization header.
+  - url: https://docs.mobula.io/rest-api-reference/endpoint/market-data
+    type: Documentation
+    note: /market/data parameters (asset, blockchain, symbol, id) and response fields.
+  - url: https://docs.mobula.io/rest-api-reference/endpoint/wallet-portfolio
+    type: Documentation
+    note: /wallet/portfolio parameters and multichain portfolio response fields.
+  - url: https://docs.mobula.io/indexing-stream/stream/websocket/wss-market-data
+    type: Documentation
+    note: WebSocket market data feed; wss subscribe/update, up to 100 assets, ~5s cadence, Growth/Enterprise plans.
+actions:
+  asyncapiPath: asyncapi/mobula-asyncapi.yml
+  apisYmlUpdated: true
+  reason: |
+    A real WebSocket protocol surface exists, so an AsyncAPI 2.6 document was
+    authored modeling the market-data and wallet-portfolio subscription streams
+    over wss with true WebSocket transport documented in the servers,
+    channels, and info.x-transport-notes. The Realtime Feed API entry in
+    apis.yml references both openapi/mobula-openapi.yml and
+    asyncapi/mobula-asyncapi.yml.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

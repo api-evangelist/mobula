@@ -1,0 +1,319 @@
+asyncapi: '2.6.0'
+id: 'urn:io:mobula:websocket:market-portfolio'
+info:
+  title: Mobula Realtime Feed (WebSocket)
+  version: '1.0.0'
+  description: |
+    AsyncAPI 2.6 description of Mobula's real-time WebSocket feed at
+    `wss://api.mobula.io`.
+
+    Unlike the SSE-only providers, Mobula publishes a genuine bidirectional
+    WebSocket surface. A client opens a WebSocket connection, sends a JSON
+    subscribe message naming a `type` (`market` or `wallet`) and the assets or
+    wallet to track, and the server pushes JSON payloads as data changes -
+    roughly every 5 seconds with no caching. Up to 100 assets may be tracked on
+    a single market subscription.
+
+    The `market` stream pushes live price, volume, market cap, and price-change
+    metrics per asset. The `wallet` stream pushes portfolio balance updates for
+    a tracked wallet address. Realtime WSS feeds are available on Mobula's Growth
+    and Enterprise plans.
+
+    Request/response shapes here follow Mobula's WebSocket market-data
+    documentation
+    (https://docs.mobula.io/indexing-stream/stream/websocket/wss-market-data);
+    consult the docs for the authoritative, always-current message contract.
+  contact:
+    name: API Evangelist
+    email: kin@apievangelist.com
+    url: https://apievangelist.com
+  license:
+    name: API documentation - Mobula Terms of Service
+    url: https://mobula.io/terms
+  x-transport-notes:
+    transport: WebSocket
+    protocol: wss
+    direction: bidirectional
+    url: wss://api.mobula.io
+    subscribeMessage: 'JSON { type, authorization, payload }'
+    updateCadence: 'approximately every 5 seconds, no caching'
+    plans: 'Growth and Enterprise'
+    source: https://docs.mobula.io/indexing-stream/stream/websocket/wss-market-data
+defaultContentType: application/json
+servers:
+  mobula:
+    url: api.mobula.io
+    protocol: wss
+    description: |
+      Mobula real-time WebSocket base. Clients connect to `wss://api.mobula.io`,
+      send a JSON subscribe message, and receive JSON market or wallet payloads.
+      The free API key is supplied inside the subscribe message `authorization`
+      field.
+    security:
+      - apiKey: []
+channels:
+  market:
+    description: |
+      Live market data stream. The client sends a subscribe message with
+      `type: "market"` and a `payload` naming up to 100 assets (by name, symbol,
+      or contract address). The server then pushes a market update whenever the
+      tracked assets change, approximately every 5 seconds.
+    subscribe:
+      operationId: receiveMarketUpdates
+      summary: Receive live market updates for subscribed assets.
+      description: |
+        After a `market` subscribe message is sent, the server pushes
+        `MarketUpdate` messages carrying live price, volume, market cap, and
+        price-change metrics for each subscribed asset.
+      message:
+        $ref: '#/components/messages/MarketUpdate'
+    publish:
+      operationId: subscribeMarket
+      summary: Subscribe to live market data for one or more assets.
+      description: |
+        Client-to-server subscribe message opening a market stream for up to
+        100 assets.
+      message:
+        $ref: '#/components/messages/MarketSubscribe'
+  wallet:
+    description: |
+      Live wallet portfolio stream. The client sends a subscribe message with
+      `type: "wallet"` and a `payload` naming a wallet address (and optional
+      blockchains). The server pushes portfolio balance updates as holdings
+      change.
+    subscribe:
+      operationId: receiveWalletUpdates
+      summary: Receive live wallet portfolio updates.
+      description: |
+        After a `wallet` subscribe message is sent, the server pushes
+        `WalletUpdate` messages carrying the wallet's total balance and
+        per-asset holdings as they change.
+      message:
+        $ref: '#/components/messages/WalletUpdate'
+    publish:
+      operationId: subscribeWallet
+      summary: Subscribe to live portfolio updates for a wallet.
+      description: |
+        Client-to-server subscribe message opening a wallet portfolio stream.
+      message:
+        $ref: '#/components/messages/WalletSubscribe'
+components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: user
+      description: |
+        Free Mobula API key. Supplied inside the JSON subscribe message
+        `authorization` field rather than an HTTP header, since the transport
+        is WebSocket.
+  messages:
+    MarketSubscribe:
+      name: MarketSubscribe
+      title: Market subscribe request
+      summary: Client subscribe message opening a live market stream.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/MarketSubscribePayload'
+      examples:
+        - name: subscribeMarket
+          summary: Track BTC and ETH live
+          payload:
+            type: market
+            authorization: '<MOBULA_API_KEY>'
+            payload:
+              assets:
+                - name: Bitcoin
+                - name: Ethereum
+              interval: 5
+    MarketUpdate:
+      name: MarketUpdate
+      title: Market update
+      summary: Server push of live market metrics for a subscribed asset.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/MarketUpdatePayload'
+      examples:
+        - name: btcTick
+          summary: A live BTC market tick
+          payload:
+            id: 100002099
+            name: Bitcoin
+            symbol: BTC
+            price: 67450.12
+            price_change_24h: 1.83
+            market_cap: 1330000000000
+            volume: 24500000000
+            liquidity: 980000000
+            timestamp: 1782950400000
+    WalletSubscribe:
+      name: WalletSubscribe
+      title: Wallet subscribe request
+      summary: Client subscribe message opening a live portfolio stream.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/WalletSubscribePayload'
+      examples:
+        - name: subscribeWallet
+          summary: Track a wallet's portfolio live
+          payload:
+            type: wallet
+            authorization: '<MOBULA_API_KEY>'
+            payload:
+              wallet: '0xd8da6bf26964af9d7eed9e03e53415d37aa96045'
+              blockchains:
+                - ethereum
+                - polygon
+    WalletUpdate:
+      name: WalletUpdate
+      title: Wallet update
+      summary: Server push of a wallet's live portfolio balance.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/WalletUpdatePayload'
+      examples:
+        - name: walletTick
+          summary: A live portfolio update
+          payload:
+            wallet: '0xd8da6bf26964af9d7eed9e03e53415d37aa96045'
+            total_wallet_balance: 152340.55
+            assets:
+              - symbol: ETH
+                token_balance: 42.5
+                estimated_balance: 138000.0
+                allocation: 90.6
+            timestamp: 1782950400000
+  schemas:
+    MarketSubscribePayload:
+      type: object
+      required:
+        - type
+        - authorization
+        - payload
+      properties:
+        type:
+          type: string
+          enum:
+            - market
+          description: Stream type. `market` opens a live market data stream.
+        authorization:
+          type: string
+          description: The free Mobula API key.
+        subscriptionId:
+          type: string
+          description: Optional client-supplied id for this subscription; auto-generated if omitted.
+        subscriptionTracking:
+          type: boolean
+          description: When true, subscription details are echoed in response logs for debugging.
+        payload:
+          type: object
+          properties:
+            assets:
+              type: array
+              description: Up to 100 assets to track (by name, symbol, or contract address).
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  symbol:
+                    type: string
+                  address:
+                    type: string
+                  blockchain:
+                    type: string
+            interval:
+              type: integer
+              description: Preferred update interval in seconds.
+    MarketUpdatePayload:
+      type: object
+      description: Live market metrics for one subscribed asset.
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        symbol:
+          type: string
+        price:
+          type: number
+        price_change_1h:
+          type: number
+        price_change_24h:
+          type: number
+        market_cap:
+          type: number
+        market_cap_diluted:
+          type: number
+        volume:
+          type: number
+        liquidity:
+          type: number
+        timestamp:
+          type: integer
+          format: int64
+          description: Update time (Unix ms).
+    WalletSubscribePayload:
+      type: object
+      required:
+        - type
+        - authorization
+        - payload
+      properties:
+        type:
+          type: string
+          enum:
+            - wallet
+          description: Stream type. `wallet` opens a live portfolio stream.
+        authorization:
+          type: string
+          description: The free Mobula API key.
+        subscriptionId:
+          type: string
+        subscriptionTracking:
+          type: boolean
+        payload:
+          type: object
+          required:
+            - wallet
+          properties:
+            wallet:
+              type: string
+              description: Wallet address to track.
+            blockchains:
+              type: array
+              items:
+                type: string
+              description: Optional blockchains to scope the portfolio to.
+    WalletUpdatePayload:
+      type: object
+      description: Live portfolio snapshot for a tracked wallet.
+      properties:
+        wallet:
+          type: string
+        total_wallet_balance:
+          type: number
+          description: Total portfolio value in USD.
+        total_realized_pnl:
+          type: number
+        total_unrealized_pnl:
+          type: number
+        assets:
+          type: array
+          items:
+            type: object
+            properties:
+              symbol:
+                type: string
+              name:
+                type: string
+              price:
+                type: number
+              token_balance:
+                type: number
+              estimated_balance:
+                type: number
+              allocation:
+                type: number
+        timestamp:
+          type: integer
+          format: int64

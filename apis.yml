@@ -1,0 +1,194 @@
+aid: mobula
+url: https://raw.githubusercontent.com/api-evangelist/mobula/refs/heads/main/apis.yml
+name: Mobula
+kind: company
+description: Mobula is an onchain-native crypto and web3 market data provider. Its
+  REST and WebSocket APIs serve real-time and historical token prices, asset and token
+  metadata, trading pairs and OHLCV candles, and multichain wallet portfolio, net-worth
+  history, and transaction data across EVM, Solana, TON, and other chains, all keyed
+  off a single free API key.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Crypto
+- Web3
+- Market Data
+- Blockchain
+- Wallet
+- Real Time
+created: '2026-07-01'
+modified: '2026-07-01'
+specificationVersion: '0.19'
+apis:
+- aid: mobula:mobula-market-data-api
+  name: Mobula Market Data API
+  tags:
+  - Market Data
+  - Price
+  - Crypto
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.mobula.io/rest-api-reference/endpoint/market-data
+  baseURL: https://api.mobula.io/api/1
+  properties:
+  - url: https://docs.mobula.io/rest-api-reference/endpoint/market-data
+    type: Documentation
+  - url: https://docs.mobula.io/rest-api-reference/introduction
+    type: APIReference
+  - url: openapi/mobula-openapi.yml
+    type: OpenAPI
+  description: Real-time market data for any token by asset name, symbol, id, or contract
+    address (with blockchain), returning price, market cap, diluted market cap, volume,
+    liquidity, ATH/ATL, multi-timeframe price change, and contract details.
+- aid: mobula:mobula-multi-data-api
+  name: Mobula Multi-Data API
+  tags:
+  - Market Data
+  - Batch
+  - Price
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.mobula.io/rest-api-reference/introduction
+  baseURL: https://api.mobula.io/api/1
+  properties:
+  - url: https://docs.mobula.io/rest-api-reference/introduction
+    type: Documentation
+  - url: openapi/mobula-openapi.yml
+    type: OpenAPI
+  description: Batched market data for many assets in a single request via comma-separated
+    asset names or contract addresses, returning the same market payload per asset
+    for efficient multi-token dashboards.
+- aid: mobula:mobula-market-history-api
+  name: Mobula Market History API
+  tags:
+  - History
+  - Time Series
+  - Price
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.mobula.io/rest-api-reference/introduction
+  baseURL: https://api.mobula.io/api/1
+  properties:
+  - url: https://docs.mobula.io/rest-api-reference/introduction
+    type: Documentation
+  - url: openapi/mobula-openapi.yml
+    type: OpenAPI
+  description: Historical price time series for an asset over a from/to range at a
+    chosen granularity, returning ordered [timestamp, price] points for charting and
+    backtesting.
+- aid: mobula:mobula-pairs-ohlcv-api
+  name: Mobula Pairs and OHLCV API
+  tags:
+  - Pairs
+  - OHLCV
+  - Candles
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.mobula.io/rest-api-reference/introduction
+  baseURL: https://api.mobula.io/api/1
+  properties:
+  - url: https://docs.mobula.io/rest-api-reference/introduction
+    type: Documentation
+  - url: openapi/mobula-openapi.yml
+    type: OpenAPI
+  description: Trading pairs for a token across DEXes plus OHLCV (open/high/low/close/volume)
+    candle history per pair, keyed by asset or pair address, blockchain, and period.
+- aid: mobula:mobula-metadata-api
+  name: Mobula Metadata API
+  tags:
+  - Metadata
+  - Assets
+  - Tokens
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.mobula.io/rest-api-reference/introduction
+  baseURL: https://api.mobula.io/api/1
+  properties:
+  - url: https://docs.mobula.io/rest-api-reference/introduction
+    type: Documentation
+  - url: openapi/mobula-openapi.yml
+    type: OpenAPI
+  description: On-chain asset and token metadata - name, symbol, logo, description,
+    website and social links, categories, and multichain contract addresses with decimals.
+- aid: mobula:mobula-wallet-portfolio-api
+  name: Mobula Wallet Portfolio API
+  tags:
+  - Wallet
+  - Portfolio
+  - Multichain
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.mobula.io/rest-api-reference/endpoint/wallet-portfolio
+  baseURL: https://api.mobula.io/api/1
+  properties:
+  - url: https://docs.mobula.io/rest-api-reference/endpoint/wallet-portfolio
+    type: Documentation
+  - url: openapi/mobula-openapi.yml
+    type: OpenAPI
+  description: Full multichain portfolio for one or more wallet addresses - total balance,
+    per-asset token balances, USD estimates, allocations, cross-chain holdings, and
+    optional realized/unrealized PnL.
+- aid: mobula:mobula-wallet-history-transactions-api
+  name: Mobula Wallet History and Transactions API
+  tags:
+  - Wallet
+  - History
+  - Transactions
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.mobula.io/rest-api-reference/introduction
+  baseURL: https://api.mobula.io/api/1
+  properties:
+  - url: https://docs.mobula.io/rest-api-reference/introduction
+    type: Documentation
+  - url: openapi/mobula-openapi.yml
+    type: OpenAPI
+  description: Historical net-worth time series for a wallet plus a normalized, decoded
+    transaction and transfer feed across chains, filterable by blockchains and time
+    range.
+- aid: mobula:mobula-search-query-api
+  name: Mobula Search and Query API
+  tags:
+  - Search
+  - Query
+  - Discovery
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.mobula.io/rest-api-reference/introduction
+  baseURL: https://api.mobula.io/api/1
+  properties:
+  - url: https://docs.mobula.io/rest-api-reference/introduction
+    type: Documentation
+  - url: openapi/mobula-openapi.yml
+    type: OpenAPI
+  description: Universal search over tokens, assets, and wallets by name, symbol, or
+    address, plus a filterable market query for screening assets by liquidity, volume,
+    market cap, and other criteria.
+- aid: mobula:mobula-realtime-feed-api
+  name: Mobula Realtime Feed API
+  tags:
+  - Real Time
+  - WebSocket
+  - Streaming
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.mobula.io/indexing-stream/stream/websocket/wss-market-data
+  baseURL: wss://api.mobula.io
+  properties:
+  - url: https://docs.mobula.io/indexing-stream/stream/websocket/wss-market-data
+    type: Documentation
+  - url: openapi/mobula-openapi.yml
+    type: OpenAPI
+  - url: asyncapi/mobula-asyncapi.yml
+    type: AsyncAPI
+  description: WebSocket streams for live price, volume, and market metrics across
+    up to 100 assets, plus wallet-portfolio balance updates, pushed roughly every
+    5 seconds with no caching. Available on Growth and Enterprise plans.
+common:
+- type: GitHubOrganization
+  url: https://github.com/mobula-io
+- type: LinkedIn
+  url: https://www.linkedin.com/company/mobula
+- type: Website
+  url: https://mobula.io/
+- type: Documentation
+  url: https://docs.mobula.io
+- type: Plans
+  url: plans/mobula-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/mobula-rate-limits.yml
+- type: FinOps
+  url: finops/mobula-finops.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

@@ -1,0 +1,172 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Mobula API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "apikey": {
+        "key": "Authorization",
+        "value": "{{mobulaApiKey}}",
+        "in": "header"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Market",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get market data (single asset)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.mobula.io/api/1/market/data?asset=Bitcoin"
+          },
+          "docs": "Real-time market data for one token by asset name, symbol, id, or contract address."
+        },
+        {
+          "info": {
+            "name": "Get multi-data (many assets)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.mobula.io/api/1/market/multi-data?assets=Bitcoin,Ethereum"
+          },
+          "docs": "Batched market data for many assets in a single request."
+        },
+        {
+          "info": {
+            "name": "Get market history",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.mobula.io/api/1/market/history?asset=Bitcoin"
+          },
+          "docs": "Historical price time series for an asset."
+        },
+        {
+          "info": {
+            "name": "Get pairs for a token",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.mobula.io/api/1/market/pairs?asset=Ethereum"
+          },
+          "docs": "Trading pairs (pools) for a token across DEXes."
+        },
+        {
+          "info": {
+            "name": "Get pair OHLCV candles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.mobula.io/api/1/market/pair?address=0xPairAddress&blockchain=ethereum&period=1h"
+          },
+          "docs": "OHLCV candle history for a specific pair."
+        },
+        {
+          "info": {
+            "name": "Market query (screener)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.mobula.io/api/1/market/query?sortBy=market_cap&sortOrder=desc&limit=20"
+          },
+          "docs": "Filterable market screener query."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Metadata",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get metadata",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.mobula.io/api/1/metadata?asset=Bitcoin"
+          },
+          "docs": "On-chain asset and token metadata."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Wallet",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get wallet portfolio",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.mobula.io/api/1/wallet/portfolio?wallet=0xd8da6bf26964af9d7eed9e03e53415d37aa96045"
+          },
+          "docs": "Multichain portfolio for one or more wallet addresses."
+        },
+        {
+          "info": {
+            "name": "Get wallet history",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.mobula.io/api/1/wallet/history?wallet=0xd8da6bf26964af9d7eed9e03e53415d37aa96045"
+          },
+          "docs": "Historical wallet net worth time series."
+        },
+        {
+          "info": {
+            "name": "Get wallet transactions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.mobula.io/api/1/wallet/transactions?wallet=0xd8da6bf26964af9d7eed9e03e53415d37aa96045&limit=100"
+          },
+          "docs": "Normalized, decoded transaction and transfer history for a wallet."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Search",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Universal search",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.mobula.io/api/1/search?input=bitcoin"
+          },
+          "docs": "Universal search over tokens, assets, and wallets."
+        }
+      ]
+    }
+  ]
+}

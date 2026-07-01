@@ -1,0 +1,78 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Mobula
+providerId: mobula
+created: '2026-07-01'
+modified: '2026-07-01'
+reconciled: false
+tags:
+- Crypto
+- Web3
+- Market Data
+- Blockchain
+- Wallet
+- Real Time
+- Rate Limiting
+- Quotas
+- Throttling
+description: >-
+  Mobula governs API usage primarily through a monthly credit (compute-unit)
+  allowance rather than fixed requests-per-second throttling. Each plan
+  (Free, Start-up, Growth, Enterprise) carries a monthly credit budget; most
+  REST calls cost 1 credit and heavier endpoints cost more. When the monthly
+  credit allowance is exhausted, further requests are rejected until the budget
+  resets or the plan is upgraded. WebSocket streams also draw down credits
+  (1 credit per minute open plus underlying endpoint cost). Specific
+  per-second request ceilings are not published and are not reconciled here.
+notes: >-
+  Verify current per-plan credit allowances and any per-second ceilings on the
+  Mobula pricing pages during reconciliation; the Free tier advertises no fixed
+  request rate limit, only a credit allowance.
+sources:
+- https://mobula.io/pricing
+- https://docs.mobula.io/pricing
+- https://docs.mobula.io/rest-api-reference/introduction
+responseCodes:
+  throttled: 429
+limits:
+- name: Monthly Credits (Free)
+  scope: account
+  metric: credits
+  limit: 10000
+  notes: Free tier monthly credit allowance; most REST calls cost 1 credit.
+- name: Monthly Credits (Start-up)
+  scope: account
+  metric: credits
+  limit: 125000
+  notes: Start-up tier monthly credit allowance.
+- name: Monthly Credits (Growth)
+  scope: account
+  metric: credits
+  limit: 1250000
+  notes: Growth tier monthly credit allowance; unlocks WebSocket feeds.
+- name: Monthly Credits (Enterprise)
+  scope: account
+  metric: credits
+  limit: unlimited
+  notes: Enterprise tier; unlimited credits under contract.
+- name: WebSocket Assets Per Subscription
+  scope: connection
+  metric: assets
+  limit: 100
+  notes: A single market WebSocket subscription can track up to 100 assets.
+- name: Per-Second Request Ceiling
+  scope: account
+  metric: requests
+  limit: see provider documentation
+  notes: No fixed per-second ceiling is published; governance is via monthly credits.
+policies:
+- name: Credit-Based Governance
+  description: Usage is metered by monthly credits; heavier endpoints consume more credits per call.
+- name: Tiered Allowances
+  description: Credit budgets rise across Free, Start-up, Growth, and Enterprise plans.
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter and honor Retry-After on 429 responses.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

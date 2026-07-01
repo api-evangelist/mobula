@@ -1,0 +1,248 @@
+{
+  "info": {
+    "name": "Mobula API",
+    "description": "Mobula onchain-native crypto market data REST API (api/1). Every request is authenticated with a free Mobula API key sent in the Authorization header.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      { "key": "key", "value": "Authorization", "type": "string" },
+      { "key": "value", "value": "{{mobulaApiKey}}", "type": "string" },
+      { "key": "in", "value": "header", "type": "string" }
+    ]
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://api.mobula.io/api/1", "type": "string" },
+    { "key": "mobulaApiKey", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Market",
+      "item": [
+        {
+          "name": "Get market data (single asset)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/market/data?asset=Bitcoin",
+              "host": ["{{baseUrl}}"],
+              "path": ["market", "data"],
+              "query": [
+                { "key": "asset", "value": "Bitcoin" },
+                { "key": "blockchain", "value": "", "disabled": true },
+                { "key": "symbol", "value": "", "disabled": true },
+                { "key": "id", "value": "", "disabled": true },
+                { "key": "shouldFetchPriceChange", "value": "24h", "disabled": true }
+              ]
+            },
+            "description": "Real-time market data for one token by asset name, symbol, id, or contract address."
+          }
+        },
+        {
+          "name": "Get multi-data (many assets)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/market/multi-data?assets=Bitcoin,Ethereum",
+              "host": ["{{baseUrl}}"],
+              "path": ["market", "multi-data"],
+              "query": [
+                { "key": "assets", "value": "Bitcoin,Ethereum" },
+                { "key": "blockchains", "value": "", "disabled": true }
+              ]
+            },
+            "description": "Batched market data for many assets in a single request."
+          }
+        },
+        {
+          "name": "Get market history",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/market/history?asset=Bitcoin",
+              "host": ["{{baseUrl}}"],
+              "path": ["market", "history"],
+              "query": [
+                { "key": "asset", "value": "Bitcoin" },
+                { "key": "from", "value": "", "disabled": true },
+                { "key": "to", "value": "", "disabled": true }
+              ]
+            },
+            "description": "Historical price time series for an asset."
+          }
+        },
+        {
+          "name": "Get pairs for a token",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/market/pairs?asset=Ethereum",
+              "host": ["{{baseUrl}}"],
+              "path": ["market", "pairs"],
+              "query": [
+                { "key": "asset", "value": "Ethereum" },
+                { "key": "blockchain", "value": "", "disabled": true }
+              ]
+            },
+            "description": "Trading pairs (pools) for a token across DEXes."
+          }
+        },
+        {
+          "name": "Get pair OHLCV candles",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/market/pair?address=0xPairAddress&blockchain=ethereum&period=1h",
+              "host": ["{{baseUrl}}"],
+              "path": ["market", "pair"],
+              "query": [
+                { "key": "address", "value": "0xPairAddress" },
+                { "key": "blockchain", "value": "ethereum" },
+                { "key": "period", "value": "1h" },
+                { "key": "from", "value": "", "disabled": true },
+                { "key": "to", "value": "", "disabled": true }
+              ]
+            },
+            "description": "OHLCV candle history for a specific pair."
+          }
+        },
+        {
+          "name": "Market query (screener)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/market/query?sortBy=market_cap&sortOrder=desc&limit=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["market", "query"],
+              "query": [
+                { "key": "sortBy", "value": "market_cap" },
+                { "key": "sortOrder", "value": "desc" },
+                { "key": "filters", "value": "", "disabled": true },
+                { "key": "blockchain", "value": "", "disabled": true },
+                { "key": "limit", "value": "20" },
+                { "key": "offset", "value": "0" }
+              ]
+            },
+            "description": "Filterable market screener query."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Metadata",
+      "item": [
+        {
+          "name": "Get metadata",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/metadata?asset=Bitcoin",
+              "host": ["{{baseUrl}}"],
+              "path": ["metadata"],
+              "query": [
+                { "key": "asset", "value": "Bitcoin" },
+                { "key": "blockchain", "value": "", "disabled": true },
+                { "key": "symbol", "value": "", "disabled": true }
+              ]
+            },
+            "description": "On-chain asset and token metadata."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Wallet",
+      "item": [
+        {
+          "name": "Get wallet portfolio",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/wallet/portfolio?wallet=0xd8da6bf26964af9d7eed9e03e53415d37aa96045",
+              "host": ["{{baseUrl}}"],
+              "path": ["wallet", "portfolio"],
+              "query": [
+                { "key": "wallet", "value": "0xd8da6bf26964af9d7eed9e03e53415d37aa96045" },
+                { "key": "blockchains", "value": "", "disabled": true },
+                { "key": "minliq", "value": "", "disabled": true },
+                { "key": "filterSpam", "value": "true", "disabled": true }
+              ]
+            },
+            "description": "Multichain portfolio for one or more wallet addresses."
+          }
+        },
+        {
+          "name": "Get wallet history",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/wallet/history?wallet=0xd8da6bf26964af9d7eed9e03e53415d37aa96045",
+              "host": ["{{baseUrl}}"],
+              "path": ["wallet", "history"],
+              "query": [
+                { "key": "wallet", "value": "0xd8da6bf26964af9d7eed9e03e53415d37aa96045" },
+                { "key": "blockchains", "value": "", "disabled": true },
+                { "key": "from", "value": "", "disabled": true },
+                { "key": "to", "value": "", "disabled": true }
+              ]
+            },
+            "description": "Historical wallet net worth time series."
+          }
+        },
+        {
+          "name": "Get wallet transactions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/wallet/transactions?wallet=0xd8da6bf26964af9d7eed9e03e53415d37aa96045&limit=100",
+              "host": ["{{baseUrl}}"],
+              "path": ["wallet", "transactions"],
+              "query": [
+                { "key": "wallet", "value": "0xd8da6bf26964af9d7eed9e03e53415d37aa96045" },
+                { "key": "blockchains", "value": "", "disabled": true },
+                { "key": "from", "value": "", "disabled": true },
+                { "key": "to", "value": "", "disabled": true },
+                { "key": "limit", "value": "100" },
+                { "key": "offset", "value": "0" }
+              ]
+            },
+            "description": "Normalized, decoded transaction and transfer history for a wallet."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Search",
+      "item": [
+        {
+          "name": "Universal search",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/search?input=bitcoin",
+              "host": ["{{baseUrl}}"],
+              "path": ["search"],
+              "query": [
+                { "key": "input", "value": "bitcoin" },
+                { "key": "filters", "value": "", "disabled": true }
+              ]
+            },
+            "description": "Universal search over tokens, assets, and wallets."
+          }
+        }
+      ]
+    }
+  ]
+}
