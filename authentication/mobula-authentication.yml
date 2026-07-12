@@ -1,0 +1,17 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/mobula-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: apiKeyAuth
+  type: apiKey
+  in: header
+  parameter: Authorization
+  description: 'Free Mobula API key sent in the `Authorization` header (e.g. `Authorization:
+    <MOBULA_API_KEY>`).'
+  sources:
+  - openapi/mobula-openapi.yml

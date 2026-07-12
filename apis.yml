@@ -175,6 +175,10 @@ apis:
     up to 100 assets, plus wallet-portfolio balance updates, pushed roughly every
     5 seconds with no caching. Available on Growth and Enterprise plans.
 common:
+- type: DomainSecurity
+  url: security/mobula-domain-security.yml
+- type: Authentication
+  url: authentication/mobula-authentication.yml
 - type: GitHubOrganization
   url: https://github.com/mobula-io
 - type: LinkedIn
@@ -189,6 +193,8 @@ common:
   url: rate-limits/mobula-rate-limits.yml
 - type: FinOps
   url: finops/mobula-finops.yml
+- url: https://blog.mobula.io/feed
+  type: Blog
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
