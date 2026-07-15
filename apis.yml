@@ -175,6 +175,8 @@ apis:
     up to 100 assets, plus wallet-portfolio balance updates, pushed roughly every
     5 seconds with no caching. Available on Growth and Enterprise plans.
 common:
+- type: AgenticAccess
+  url: agentic-access/mobula-agentic-access.yml
 - type: DomainSecurity
   url: security/mobula-domain-security.yml
 - type: Authentication
