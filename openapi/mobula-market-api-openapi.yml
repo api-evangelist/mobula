@@ -1,0 +1,416 @@
+openapi: 3.0.3
+info:
+  title: Mobula Market API
+  description: Faithful representative OpenAPI description of Mobula's onchain-native crypto market data REST API served under https://api.mobula.io/api/1. Covers real-time and historical token market data, multi-asset batch data, price history, trading pairs and OHLCV candles, asset/token metadata, multichain wallet portfolio, wallet net-worth history and transactions, and universal search / market query. Every request is authenticated with a free API key sent in the `Authorization` header. Endpoints and parameters follow Mobula's published REST reference; see https://docs.mobula.io/rest-api-reference/introduction for the authoritative, always-current contract.
+  termsOfService: https://mobula.io/terms
+  contact:
+    name: Mobula Support
+    url: https://docs.mobula.io
+  version: '1.0'
+servers:
+- url: https://api.mobula.io/api/1
+  description: Production REST base (api/1).
+- url: https://demo-api.mobula.io/api/1
+  description: Demo / explorer base with the same surface.
+security:
+- apiKeyAuth: []
+tags:
+- name: Market
+  description: Real-time and historical market data for tokens and assets.
+paths:
+  /market/data:
+    get:
+      operationId: getMarketData
+      tags:
+      - Market
+      summary: Real-time market data for a single asset.
+      description: Returns real-time market data for one token identified by asset name, symbol, numeric id, or contract address. When querying by contract address, `blockchain` is required.
+      parameters:
+      - name: asset
+        in: query
+        required: false
+        description: Token name or contract address (e.g. `Bitcoin` or `0x...`).
+        schema:
+          type: string
+      - name: blockchain
+        in: query
+        required: false
+        description: Blockchain name or chain id; required when `asset` is a contract address.
+        schema:
+          type: string
+      - name: symbol
+        in: query
+        required: false
+        description: Token ticker symbol (e.g. `BTC`).
+        schema:
+          type: string
+      - name: id
+        in: query
+        required: false
+        description: Mobula asset unique identifier.
+        schema:
+          type: integer
+      - name: shouldFetchPriceChange
+        in: query
+        required: false
+        description: Timeframe for the price-change fields (e.g. `24h`).
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/MarketData'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /market/multi-data:
+    get:
+      operationId: getMarketMultiData
+      tags:
+      - Market
+      summary: Real-time market data for many assets at once.
+      description: Batched market data for multiple tokens in one call. Provide a comma separated list of asset names via `assets`, or contract addresses via `blockchains` + `assets`. Returns a map keyed by asset.
+      parameters:
+      - name: assets
+        in: query
+        required: true
+        description: Comma-separated asset names or contract addresses.
+        schema:
+          type: string
+      - name: blockchains
+        in: query
+        required: false
+        description: Comma-separated blockchains aligned with contract-address assets.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    additionalProperties:
+                      $ref: '#/components/schemas/MarketData'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /market/history:
+    get:
+      operationId: getMarketHistory
+      tags:
+      - Market
+      summary: Historical price time series for an asset.
+      description: Ordered historical price points for an asset over an optional from/to range. Returns `[timestamp, price]` pairs suitable for charting.
+      parameters:
+      - name: asset
+        in: query
+        required: false
+        description: Token name or contract address.
+        schema:
+          type: string
+      - name: blockchain
+        in: query
+        required: false
+        description: Blockchain name or chain id; required for contract-address queries.
+        schema:
+          type: string
+      - name: symbol
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: from
+        in: query
+        required: false
+        description: Start of the range as a Unix timestamp (ms).
+        schema:
+          type: integer
+          format: int64
+      - name: to
+        in: query
+        required: false
+        description: End of the range as a Unix timestamp (ms).
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      symbol:
+                        type: string
+                      price_history:
+                        type: array
+                        description: Array of [timestamp_ms, price] pairs.
+                        items:
+                          type: array
+                          items:
+                            type: number
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /market/pairs:
+    get:
+      operationId: getMarketPairs
+      tags:
+      - Market
+      summary: Trading pairs for a token across DEXes.
+      description: Lists trading pairs (pools) for an asset with per-pair liquidity, volume, price, and pair address across supported blockchains.
+      parameters:
+      - name: asset
+        in: query
+        required: false
+        description: Token name or contract address.
+        schema:
+          type: string
+      - name: blockchain
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: symbol
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      pairs:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Pair'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /market/pair:
+    get:
+      operationId: getMarketPairOhlcv
+      tags:
+      - Market
+      summary: OHLCV candle history for a pair.
+      description: Open/high/low/close/volume candles for a specific pair over a period and time range, keyed by pair address and blockchain.
+      parameters:
+      - name: address
+        in: query
+        required: true
+        description: Pair (pool) contract address.
+        schema:
+          type: string
+      - name: blockchain
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: period
+        in: query
+        required: false
+        description: Candle period (e.g. `1m`, `5m`, `1h`, `1d`).
+        schema:
+          type: string
+          default: 1h
+      - name: from
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: to
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Ohlcv'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  schemas:
+    Contract:
+      type: object
+      properties:
+        address:
+          type: string
+        blockchain:
+          type: string
+        blockchainId:
+          type: string
+        decimals:
+          type: integer
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        statusCode:
+          type: integer
+    Pair:
+      type: object
+      properties:
+        address:
+          type: string
+        blockchain:
+          type: string
+        exchange:
+          type: object
+          properties:
+            name:
+              type: string
+            logo:
+              type: string
+        token0:
+          $ref: '#/components/schemas/PairToken'
+        token1:
+          $ref: '#/components/schemas/PairToken'
+        price:
+          type: number
+        priceToken:
+          type: number
+        liquidity:
+          type: number
+        volume24h:
+          type: number
+        createdAt:
+          type: string
+    Ohlcv:
+      type: object
+      description: A single OHLCV candle.
+      properties:
+        time:
+          type: integer
+          format: int64
+          description: Candle open time (Unix ms).
+        open:
+          type: number
+        high:
+          type: number
+        low:
+          type: number
+        close:
+          type: number
+        volume:
+          type: number
+    MarketData:
+      type: object
+      description: Real-time market data for an asset.
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        symbol:
+          type: string
+        price:
+          type: number
+        price_change_1h:
+          type: number
+        price_change_24h:
+          type: number
+        price_change_7d:
+          type: number
+        price_change_1m:
+          type: number
+        price_change_1y:
+          type: number
+        market_cap:
+          type: number
+        market_cap_diluted:
+          type: number
+        volume:
+          type: number
+        volume_change_24h:
+          type: number
+        volume_7d:
+          type: number
+        liquidity:
+          type: number
+        liquidity_change_24h:
+          type: number
+        ath:
+          type: number
+        atl:
+          type: number
+        total_supply:
+          type: number
+        circulating_supply:
+          type: number
+        rank:
+          type: integer
+        contracts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Contract'
+    PairToken:
+      type: object
+      properties:
+        address:
+          type: string
+        symbol:
+          type: string
+        name:
+          type: string
+        decimals:
+          type: integer
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Credit allowance exhausted or too many requests.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Free Mobula API key sent in the `Authorization` header (e.g. `Authorization: <MOBULA_API_KEY>`).'

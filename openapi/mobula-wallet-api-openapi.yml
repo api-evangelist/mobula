@@ -1,0 +1,343 @@
+openapi: 3.0.3
+info:
+  title: Mobula Market Wallet API
+  description: Faithful representative OpenAPI description of Mobula's onchain-native crypto market data REST API served under https://api.mobula.io/api/1. Covers real-time and historical token market data, multi-asset batch data, price history, trading pairs and OHLCV candles, asset/token metadata, multichain wallet portfolio, wallet net-worth history and transactions, and universal search / market query. Every request is authenticated with a free API key sent in the `Authorization` header. Endpoints and parameters follow Mobula's published REST reference; see https://docs.mobula.io/rest-api-reference/introduction for the authoritative, always-current contract.
+  termsOfService: https://mobula.io/terms
+  contact:
+    name: Mobula Support
+    url: https://docs.mobula.io
+  version: '1.0'
+servers:
+- url: https://api.mobula.io/api/1
+  description: Production REST base (api/1).
+- url: https://demo-api.mobula.io/api/1
+  description: Demo / explorer base with the same surface.
+security:
+- apiKeyAuth: []
+tags:
+- name: Wallet
+  description: Multichain wallet portfolio, history, and transactions.
+paths:
+  /wallet/portfolio:
+    get:
+      operationId: getWalletPortfolio
+      tags:
+      - Wallet
+      summary: Multichain wallet portfolio.
+      description: Current holdings for one or more wallet addresses - total balance, per-asset token balances, USD estimates, allocations, and optional PnL.
+      parameters:
+      - name: wallet
+        in: query
+        required: false
+        description: Single wallet address. One of `wallet` or `wallets` is required.
+        schema:
+          type: string
+      - name: wallets
+        in: query
+        required: false
+        description: Comma-separated wallet addresses.
+        schema:
+          type: string
+      - name: blockchains
+        in: query
+        required: false
+        description: Comma-separated blockchains to scope the portfolio to.
+        schema:
+          type: string
+      - name: cache
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: stale
+        in: query
+        required: false
+        description: Max acceptable cache age in seconds.
+        schema:
+          type: integer
+      - name: minliq
+        in: query
+        required: false
+        description: Minimum liquidity (USD) for an asset to be included.
+        schema:
+          type: number
+      - name: filterSpam
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: shouldFetchPriceChange
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Portfolio'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /wallet/history:
+    get:
+      operationId: getWalletHistory
+      tags:
+      - Wallet
+      summary: Historical wallet net worth.
+      description: Time series of a wallet's total USD net worth over a from/to range, optionally scoped to specific blockchains.
+      parameters:
+      - name: wallet
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: wallets
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: blockchains
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: from
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: to
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      wallets:
+                        type: array
+                        items:
+                          type: string
+                      balance_history:
+                        type: array
+                        description: Array of [timestamp_ms, net_worth_usd] pairs.
+                        items:
+                          type: array
+                          items:
+                            type: number
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /wallet/transactions:
+    get:
+      operationId: getWalletTransactions
+      tags:
+      - Wallet
+      summary: Wallet transaction and transfer history.
+      description: Normalized, decoded transaction and transfer feed for a wallet across chains, filterable by blockchains and time range.
+      parameters:
+      - name: wallet
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: blockchains
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: from
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: to
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 100
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 0
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Transaction'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  schemas:
+    Contract:
+      type: object
+      properties:
+        address:
+          type: string
+        blockchain:
+          type: string
+        blockchainId:
+          type: string
+        decimals:
+          type: integer
+    Transaction:
+      type: object
+      properties:
+        hash:
+          type: string
+        blockchain:
+          type: string
+        timestamp:
+          type: integer
+          format: int64
+        type:
+          type: string
+          description: Normalized action (e.g. swap, transfer, receive, send).
+        from:
+          type: string
+        to:
+          type: string
+        amount:
+          type: number
+        amount_usd:
+          type: number
+        asset:
+          $ref: '#/components/schemas/Metadata'
+    PortfolioAsset:
+      type: object
+      properties:
+        asset:
+          $ref: '#/components/schemas/Metadata'
+        price:
+          type: number
+        token_balance:
+          type: number
+        estimated_balance:
+          type: number
+          description: USD value of the holding.
+        allocation:
+          type: number
+          description: Percent of the total portfolio.
+        cross_chain_balances:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              address:
+                type: string
+              balance:
+                type: number
+              balanceRaw:
+                type: string
+              chainId:
+                type: string
+    Portfolio:
+      type: object
+      properties:
+        total_wallet_balance:
+          type: number
+          description: Total portfolio value in USD.
+        wallets:
+          type: array
+          items:
+            type: string
+        total_realized_pnl:
+          type: number
+        total_unrealized_pnl:
+          type: number
+        assets:
+          type: array
+          items:
+            $ref: '#/components/schemas/PortfolioAsset'
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        statusCode:
+          type: integer
+    Metadata:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        symbol:
+          type: string
+        logo:
+          type: string
+        description:
+          type: string
+        website:
+          type: string
+        twitter:
+          type: string
+        discord:
+          type: string
+        telegram:
+          type: string
+        categories:
+          type: array
+          items:
+            type: string
+        contracts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Contract'
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Credit allowance exhausted or too many requests.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Free Mobula API key sent in the `Authorization` header (e.g. `Authorization: <MOBULA_API_KEY>`).'

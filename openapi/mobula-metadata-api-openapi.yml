@@ -1,0 +1,126 @@
+openapi: 3.0.3
+info:
+  title: Mobula Market Metadata API
+  description: Faithful representative OpenAPI description of Mobula's onchain-native crypto market data REST API served under https://api.mobula.io/api/1. Covers real-time and historical token market data, multi-asset batch data, price history, trading pairs and OHLCV candles, asset/token metadata, multichain wallet portfolio, wallet net-worth history and transactions, and universal search / market query. Every request is authenticated with a free API key sent in the `Authorization` header. Endpoints and parameters follow Mobula's published REST reference; see https://docs.mobula.io/rest-api-reference/introduction for the authoritative, always-current contract.
+  termsOfService: https://mobula.io/terms
+  contact:
+    name: Mobula Support
+    url: https://docs.mobula.io
+  version: '1.0'
+servers:
+- url: https://api.mobula.io/api/1
+  description: Production REST base (api/1).
+- url: https://demo-api.mobula.io/api/1
+  description: Demo / explorer base with the same surface.
+security:
+- apiKeyAuth: []
+tags:
+- name: Metadata
+  description: Asset and token metadata.
+paths:
+  /metadata:
+    get:
+      operationId: getMetadata
+      tags:
+      - Metadata
+      summary: Asset and token metadata.
+      description: On-chain metadata for an asset - name, symbol, logo, description, website, socials, categories, and multichain contracts with decimals.
+      parameters:
+      - name: asset
+        in: query
+        required: false
+        description: Token name or contract address.
+        schema:
+          type: string
+      - name: blockchain
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: symbol
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Metadata'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  schemas:
+    Contract:
+      type: object
+      properties:
+        address:
+          type: string
+        blockchain:
+          type: string
+        blockchainId:
+          type: string
+        decimals:
+          type: integer
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        statusCode:
+          type: integer
+    Metadata:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        symbol:
+          type: string
+        logo:
+          type: string
+        description:
+          type: string
+        website:
+          type: string
+        twitter:
+          type: string
+        discord:
+          type: string
+        telegram:
+          type: string
+        categories:
+          type: array
+          items:
+            type: string
+        contracts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Contract'
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Credit allowance exhausted or too many requests.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Free Mobula API key sent in the `Authorization` header (e.g. `Authorization: <MOBULA_API_KEY>`).'

@@ -1,0 +1,230 @@
+openapi: 3.0.3
+info:
+  title: Mobula Market Search API
+  description: Faithful representative OpenAPI description of Mobula's onchain-native crypto market data REST API served under https://api.mobula.io/api/1. Covers real-time and historical token market data, multi-asset batch data, price history, trading pairs and OHLCV candles, asset/token metadata, multichain wallet portfolio, wallet net-worth history and transactions, and universal search / market query. Every request is authenticated with a free API key sent in the `Authorization` header. Endpoints and parameters follow Mobula's published REST reference; see https://docs.mobula.io/rest-api-reference/introduction for the authoritative, always-current contract.
+  termsOfService: https://mobula.io/terms
+  contact:
+    name: Mobula Support
+    url: https://docs.mobula.io
+  version: '1.0'
+servers:
+- url: https://api.mobula.io/api/1
+  description: Production REST base (api/1).
+- url: https://demo-api.mobula.io/api/1
+  description: Demo / explorer base with the same surface.
+security:
+- apiKeyAuth: []
+tags:
+- name: Search
+  description: Universal search and filterable market queries.
+paths:
+  /search:
+    get:
+      operationId: search
+      tags:
+      - Search
+      summary: Universal search over tokens, assets, and wallets.
+      description: Free-text search that matches assets and tokens by name, symbol, or contract address (and wallets by address), ranked by relevance and liquidity.
+      parameters:
+      - name: input
+        in: query
+        required: true
+        description: The search string (name, symbol, or address).
+        schema:
+          type: string
+      - name: filters
+        in: query
+        required: false
+        description: Optional JSON-encoded filter object.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SearchResult'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /market/query:
+    get:
+      operationId: marketQuery
+      tags:
+      - Search
+      summary: Filterable market screener query.
+      description: Screen and rank assets by market attributes such as liquidity, volume, market cap, and price change, with sorting and pagination.
+      parameters:
+      - name: sortBy
+        in: query
+        required: false
+        description: Field to sort by (e.g. `market_cap`, `volume`, `liquidity`).
+        schema:
+          type: string
+          default: market_cap
+      - name: sortOrder
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+          default: desc
+      - name: filters
+        in: query
+        required: false
+        description: JSON-encoded filter object (min/max liquidity, volume, etc.).
+        schema:
+          type: string
+      - name: blockchain
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 20
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 0
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/MarketData'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  schemas:
+    Contract:
+      type: object
+      properties:
+        address:
+          type: string
+        blockchain:
+          type: string
+        blockchainId:
+          type: string
+        decimals:
+          type: integer
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        statusCode:
+          type: integer
+    MarketData:
+      type: object
+      description: Real-time market data for an asset.
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        symbol:
+          type: string
+        price:
+          type: number
+        price_change_1h:
+          type: number
+        price_change_24h:
+          type: number
+        price_change_7d:
+          type: number
+        price_change_1m:
+          type: number
+        price_change_1y:
+          type: number
+        market_cap:
+          type: number
+        market_cap_diluted:
+          type: number
+        volume:
+          type: number
+        volume_change_24h:
+          type: number
+        volume_7d:
+          type: number
+        liquidity:
+          type: number
+        liquidity_change_24h:
+          type: number
+        ath:
+          type: number
+        atl:
+          type: number
+        total_supply:
+          type: number
+        circulating_supply:
+          type: number
+        rank:
+          type: integer
+        contracts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Contract'
+    SearchResult:
+      type: object
+      properties:
+        name:
+          type: string
+        symbol:
+          type: string
+        type:
+          type: string
+          description: Result kind (asset, token, or wallet).
+        logo:
+          type: string
+        price:
+          type: number
+        market_cap:
+          type: number
+        liquidity:
+          type: number
+        contracts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Contract'
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Credit allowance exhausted or too many requests.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Free Mobula API key sent in the `Authorization` header (e.g. `Authorization: <MOBULA_API_KEY>`).'
