@@ -1,0 +1,20 @@
+{
+  "provider": "mobula",
+  "sources": [
+    "mobula-market-api-openapi.yml",
+    "mobula-metadata-api-openapi.yml",
+    "mobula-search-api-openapi.yml",
+    "mobula-wallet-api-openapi.yml"
+  ],
+  "outputs": [
+    "mobula-market-api-openapi.yml",
+    "mobula-metadata-api-openapi.yml",
+    "mobula-search-api-openapi.yml",
+    "mobula-wallet-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

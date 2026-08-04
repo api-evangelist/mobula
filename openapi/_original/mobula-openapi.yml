@@ -1,0 +1,901 @@
+openapi: 3.0.3
+info:
+  title: Mobula API
+  description: >-
+    Faithful representative OpenAPI description of Mobula's onchain-native crypto
+    market data REST API served under https://api.mobula.io/api/1. Covers real-time
+    and historical token market data, multi-asset batch data, price history, trading
+    pairs and OHLCV candles, asset/token metadata, multichain wallet portfolio, wallet
+    net-worth history and transactions, and universal search / market query.
+    Every request is authenticated with a free API key sent in the `Authorization`
+    header. Endpoints and parameters follow Mobula's published REST reference; see
+    https://docs.mobula.io/rest-api-reference/introduction for the authoritative,
+    always-current contract.
+  termsOfService: https://mobula.io/terms
+  contact:
+    name: Mobula Support
+    url: https://docs.mobula.io
+  version: '1.0'
+servers:
+  - url: https://api.mobula.io/api/1
+    description: Production REST base (api/1).
+  - url: https://demo-api.mobula.io/api/1
+    description: Demo / explorer base with the same surface.
+security:
+  - apiKeyAuth: []
+tags:
+  - name: Market
+    description: Real-time and historical market data for tokens and assets.
+  - name: Metadata
+    description: Asset and token metadata.
+  - name: Wallet
+    description: Multichain wallet portfolio, history, and transactions.
+  - name: Search
+    description: Universal search and filterable market queries.
+paths:
+  /market/data:
+    get:
+      operationId: getMarketData
+      tags:
+        - Market
+      summary: Real-time market data for a single asset.
+      description: >-
+        Returns real-time market data for one token identified by asset name,
+        symbol, numeric id, or contract address. When querying by contract
+        address, `blockchain` is required.
+      parameters:
+        - name: asset
+          in: query
+          required: false
+          description: Token name or contract address (e.g. `Bitcoin` or `0x...`).
+          schema:
+            type: string
+        - name: blockchain
+          in: query
+          required: false
+          description: Blockchain name or chain id; required when `asset` is a contract address.
+          schema:
+            type: string
+        - name: symbol
+          in: query
+          required: false
+          description: Token ticker symbol (e.g. `BTC`).
+          schema:
+            type: string
+        - name: id
+          in: query
+          required: false
+          description: Mobula asset unique identifier.
+          schema:
+            type: integer
+        - name: shouldFetchPriceChange
+          in: query
+          required: false
+          description: Timeframe for the price-change fields (e.g. `24h`).
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/MarketData'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /market/multi-data:
+    get:
+      operationId: getMarketMultiData
+      tags:
+        - Market
+      summary: Real-time market data for many assets at once.
+      description: >-
+        Batched market data for multiple tokens in one call. Provide a comma
+        separated list of asset names via `assets`, or contract addresses via
+        `blockchains` + `assets`. Returns a map keyed by asset.
+      parameters:
+        - name: assets
+          in: query
+          required: true
+          description: Comma-separated asset names or contract addresses.
+          schema:
+            type: string
+        - name: blockchains
+          in: query
+          required: false
+          description: Comma-separated blockchains aligned with contract-address assets.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    additionalProperties:
+                      $ref: '#/components/schemas/MarketData'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /market/history:
+    get:
+      operationId: getMarketHistory
+      tags:
+        - Market
+      summary: Historical price time series for an asset.
+      description: >-
+        Ordered historical price points for an asset over an optional from/to
+        range. Returns `[timestamp, price]` pairs suitable for charting.
+      parameters:
+        - name: asset
+          in: query
+          required: false
+          description: Token name or contract address.
+          schema:
+            type: string
+        - name: blockchain
+          in: query
+          required: false
+          description: Blockchain name or chain id; required for contract-address queries.
+          schema:
+            type: string
+        - name: symbol
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: from
+          in: query
+          required: false
+          description: Start of the range as a Unix timestamp (ms).
+          schema:
+            type: integer
+            format: int64
+        - name: to
+          in: query
+          required: false
+          description: End of the range as a Unix timestamp (ms).
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      symbol:
+                        type: string
+                      price_history:
+                        type: array
+                        description: Array of [timestamp_ms, price] pairs.
+                        items:
+                          type: array
+                          items:
+                            type: number
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /market/pairs:
+    get:
+      operationId: getMarketPairs
+      tags:
+        - Market
+      summary: Trading pairs for a token across DEXes.
+      description: >-
+        Lists trading pairs (pools) for an asset with per-pair liquidity, volume,
+        price, and pair address across supported blockchains.
+      parameters:
+        - name: asset
+          in: query
+          required: false
+          description: Token name or contract address.
+          schema:
+            type: string
+        - name: blockchain
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: symbol
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      pairs:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Pair'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /market/pair:
+    get:
+      operationId: getMarketPairOhlcv
+      tags:
+        - Market
+      summary: OHLCV candle history for a pair.
+      description: >-
+        Open/high/low/close/volume candles for a specific pair over a period and
+        time range, keyed by pair address and blockchain.
+      parameters:
+        - name: address
+          in: query
+          required: true
+          description: Pair (pool) contract address.
+          schema:
+            type: string
+        - name: blockchain
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: period
+          in: query
+          required: false
+          description: Candle period (e.g. `1m`, `5m`, `1h`, `1d`).
+          schema:
+            type: string
+            default: 1h
+        - name: from
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: to
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Ohlcv'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /metadata:
+    get:
+      operationId: getMetadata
+      tags:
+        - Metadata
+      summary: Asset and token metadata.
+      description: >-
+        On-chain metadata for an asset - name, symbol, logo, description,
+        website, socials, categories, and multichain contracts with decimals.
+      parameters:
+        - name: asset
+          in: query
+          required: false
+          description: Token name or contract address.
+          schema:
+            type: string
+        - name: blockchain
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: symbol
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Metadata'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /wallet/portfolio:
+    get:
+      operationId: getWalletPortfolio
+      tags:
+        - Wallet
+      summary: Multichain wallet portfolio.
+      description: >-
+        Current holdings for one or more wallet addresses - total balance,
+        per-asset token balances, USD estimates, allocations, and optional PnL.
+      parameters:
+        - name: wallet
+          in: query
+          required: false
+          description: Single wallet address. One of `wallet` or `wallets` is required.
+          schema:
+            type: string
+        - name: wallets
+          in: query
+          required: false
+          description: Comma-separated wallet addresses.
+          schema:
+            type: string
+        - name: blockchains
+          in: query
+          required: false
+          description: Comma-separated blockchains to scope the portfolio to.
+          schema:
+            type: string
+        - name: cache
+          in: query
+          required: false
+          schema:
+            type: boolean
+        - name: stale
+          in: query
+          required: false
+          description: Max acceptable cache age in seconds.
+          schema:
+            type: integer
+        - name: minliq
+          in: query
+          required: false
+          description: Minimum liquidity (USD) for an asset to be included.
+          schema:
+            type: number
+        - name: filterSpam
+          in: query
+          required: false
+          schema:
+            type: boolean
+        - name: shouldFetchPriceChange
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Portfolio'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /wallet/history:
+    get:
+      operationId: getWalletHistory
+      tags:
+        - Wallet
+      summary: Historical wallet net worth.
+      description: >-
+        Time series of a wallet's total USD net worth over a from/to range,
+        optionally scoped to specific blockchains.
+      parameters:
+        - name: wallet
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: wallets
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: blockchains
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: from
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: to
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      wallets:
+                        type: array
+                        items:
+                          type: string
+                      balance_history:
+                        type: array
+                        description: Array of [timestamp_ms, net_worth_usd] pairs.
+                        items:
+                          type: array
+                          items:
+                            type: number
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /wallet/transactions:
+    get:
+      operationId: getWalletTransactions
+      tags:
+        - Wallet
+      summary: Wallet transaction and transfer history.
+      description: >-
+        Normalized, decoded transaction and transfer feed for a wallet across
+        chains, filterable by blockchains and time range.
+      parameters:
+        - name: wallet
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: blockchains
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: from
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: to
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 100
+        - name: offset
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 0
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Transaction'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /search:
+    get:
+      operationId: search
+      tags:
+        - Search
+      summary: Universal search over tokens, assets, and wallets.
+      description: >-
+        Free-text search that matches assets and tokens by name, symbol, or
+        contract address (and wallets by address), ranked by relevance and
+        liquidity.
+      parameters:
+        - name: input
+          in: query
+          required: true
+          description: The search string (name, symbol, or address).
+          schema:
+            type: string
+        - name: filters
+          in: query
+          required: false
+          description: Optional JSON-encoded filter object.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SearchResult'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /market/query:
+    get:
+      operationId: marketQuery
+      tags:
+        - Search
+      summary: Filterable market screener query.
+      description: >-
+        Screen and rank assets by market attributes such as liquidity, volume,
+        market cap, and price change, with sorting and pagination.
+      parameters:
+        - name: sortBy
+          in: query
+          required: false
+          description: Field to sort by (e.g. `market_cap`, `volume`, `liquidity`).
+          schema:
+            type: string
+            default: market_cap
+        - name: sortOrder
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+            default: desc
+        - name: filters
+          in: query
+          required: false
+          description: JSON-encoded filter object (min/max liquidity, volume, etc.).
+          schema:
+            type: string
+        - name: blockchain
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 20
+        - name: offset
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 0
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/MarketData'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: >-
+        Free Mobula API key sent in the `Authorization` header
+        (e.g. `Authorization: <MOBULA_API_KEY>`).
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Credit allowance exhausted or too many requests.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        statusCode:
+          type: integer
+    Contract:
+      type: object
+      properties:
+        address:
+          type: string
+        blockchain:
+          type: string
+        blockchainId:
+          type: string
+        decimals:
+          type: integer
+    MarketData:
+      type: object
+      description: Real-time market data for an asset.
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        symbol:
+          type: string
+        price:
+          type: number
+        price_change_1h:
+          type: number
+        price_change_24h:
+          type: number
+        price_change_7d:
+          type: number
+        price_change_1m:
+          type: number
+        price_change_1y:
+          type: number
+        market_cap:
+          type: number
+        market_cap_diluted:
+          type: number
+        volume:
+          type: number
+        volume_change_24h:
+          type: number
+        volume_7d:
+          type: number
+        liquidity:
+          type: number
+        liquidity_change_24h:
+          type: number
+        ath:
+          type: number
+        atl:
+          type: number
+        total_supply:
+          type: number
+        circulating_supply:
+          type: number
+        rank:
+          type: integer
+        contracts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Contract'
+    Pair:
+      type: object
+      properties:
+        address:
+          type: string
+        blockchain:
+          type: string
+        exchange:
+          type: object
+          properties:
+            name:
+              type: string
+            logo:
+              type: string
+        token0:
+          $ref: '#/components/schemas/PairToken'
+        token1:
+          $ref: '#/components/schemas/PairToken'
+        price:
+          type: number
+        priceToken:
+          type: number
+        liquidity:
+          type: number
+        volume24h:
+          type: number
+        createdAt:
+          type: string
+    PairToken:
+      type: object
+      properties:
+        address:
+          type: string
+        symbol:
+          type: string
+        name:
+          type: string
+        decimals:
+          type: integer
+    Ohlcv:
+      type: object
+      description: A single OHLCV candle.
+      properties:
+        time:
+          type: integer
+          format: int64
+          description: Candle open time (Unix ms).
+        open:
+          type: number
+        high:
+          type: number
+        low:
+          type: number
+        close:
+          type: number
+        volume:
+          type: number
+    Metadata:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        symbol:
+          type: string
+        logo:
+          type: string
+        description:
+          type: string
+        website:
+          type: string
+        twitter:
+          type: string
+        discord:
+          type: string
+        telegram:
+          type: string
+        categories:
+          type: array
+          items:
+            type: string
+        contracts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Contract'
+    Portfolio:
+      type: object
+      properties:
+        total_wallet_balance:
+          type: number
+          description: Total portfolio value in USD.
+        wallets:
+          type: array
+          items:
+            type: string
+        total_realized_pnl:
+          type: number
+        total_unrealized_pnl:
+          type: number
+        assets:
+          type: array
+          items:
+            $ref: '#/components/schemas/PortfolioAsset'
+    PortfolioAsset:
+      type: object
+      properties:
+        asset:
+          $ref: '#/components/schemas/Metadata'
+        price:
+          type: number
+        token_balance:
+          type: number
+        estimated_balance:
+          type: number
+          description: USD value of the holding.
+        allocation:
+          type: number
+          description: Percent of the total portfolio.
+        cross_chain_balances:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              address:
+                type: string
+              balance:
+                type: number
+              balanceRaw:
+                type: string
+              chainId:
+                type: string
+    Transaction:
+      type: object
+      properties:
+        hash:
+          type: string
+        blockchain:
+          type: string
+        timestamp:
+          type: integer
+          format: int64
+        type:
+          type: string
+          description: Normalized action (e.g. swap, transfer, receive, send).
+        from:
+          type: string
+        to:
+          type: string
+        amount:
+          type: number
+        amount_usd:
+          type: number
+        asset:
+          $ref: '#/components/schemas/Metadata'
+    SearchResult:
+      type: object
+      properties:
+        name:
+          type: string
+        symbol:
+          type: string
+        type:
+          type: string
+          description: Result kind (asset, token, or wallet).
+        logo:
+          type: string
+        price:
+          type: number
+        market_cap:
+          type: number
+        liquidity:
+          type: number
+        contracts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Contract'
