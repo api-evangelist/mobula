@@ -1,0 +1,529 @@
+{
+  "item": [
+    {
+      "id": "b3db0e81-afcc-4a4b-9522-631b2525f095",
+      "name": "Search",
+      "description": {
+        "content": "Universal search and filterable market queries.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "53468c9c-2779-4d65-bb1d-304804500c5f",
+          "name": "Universal search over tokens, assets, and wallets.",
+          "request": {
+            "name": "Universal search over tokens, assets, and wallets.",
+            "description": {
+              "content": "Free-text search that matches assets and tokens by name, symbol, or contract address (and wallets by address), ranked by relevance and liquidity.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "input",
+                  "value": "<string>",
+                  "description": "(Required) The search string (name, symbol, or address)."
+                },
+                {
+                  "disabled": false,
+                  "key": "filters",
+                  "value": "<string>",
+                  "description": "Optional JSON-encoded filter object."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3fcd877f-76c5-4735-8cd1-962e369eab1c",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "input",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filters",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"name\": \"string\",\n      \"symbol\": \"string\",\n      \"type\": \"string\",\n      \"logo\": \"string\",\n      \"price\": 2592.247403233946,\n      \"market_cap\": 5668.1004213617525,\n      \"liquidity\": 7313.901958085263,\n      \"contracts\": [\n        {\n          \"address\": \"string\",\n          \"blockchain\": \"string\",\n          \"blockchainId\": \"string\",\n          \"decimals\": 6419\n        },\n        {\n          \"address\": \"string\",\n          \"blockchain\": \"string\",\n          \"blockchainId\": \"string\",\n          \"decimals\": 2973\n        }\n      ]\n    },\n    {\n      \"name\": \"string\",\n      \"symbol\": \"string\",\n      \"type\": \"string\",\n      \"logo\": \"string\",\n      \"price\": 1011.252443829993,\n      \"market_cap\": 2787.833446286347,\n      \"liquidity\": 4621.301949293232,\n      \"contracts\": [\n        {\n          \"address\": \"string\",\n          \"blockchain\": \"string\",\n          \"blockchainId\": \"string\",\n          \"decimals\": 6941\n        },\n        {\n          \"address\": \"string\",\n          \"blockchain\": \"string\",\n          \"blockchainId\": \"string\",\n          \"decimals\": 3239\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "022b5947-7e5c-489b-ac8a-11d5df151b8a",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "input",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filters",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 3135\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aca88c8c-6095-4694-8e32-9f2a14e0a886",
+              "name": "Credit allowance exhausted or too many requests.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "input",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "filters",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 3135\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c2a3f94d-389e-48f1-9059-4fc287953291",
+          "name": "Filterable market screener query.",
+          "request": {
+            "name": "Filterable market screener query.",
+            "description": {
+              "content": "Screen and rank assets by market attributes such as liquidity, volume, market cap, and price change, with sorting and pagination.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "market",
+                "query"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "sortBy",
+                  "value": "market_cap",
+                  "description": "Field to sort by (e.g. `market_cap`, `volume`, `liquidity`)."
+                },
+                {
+                  "disabled": false,
+                  "key": "sortOrder",
+                  "value": "desc"
+                },
+                {
+                  "disabled": false,
+                  "key": "filters",
+                  "value": "<string>",
+                  "description": "JSON-encoded filter object (min/max liquidity, volume, etc.)."
+                },
+                {
+                  "disabled": false,
+                  "key": "blockchain",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "20"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6d33e9ad-b580-4736-b97a-31960bfb25cc",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "market",
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sortBy",
+                      "value": "market_cap"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "desc"
+                    },
+                    {
+                      "key": "filters",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "blockchain",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": 3251,\n      \"name\": \"string\",\n      \"symbol\": \"string\",\n      \"price\": 6059.818214340666,\n      \"price_change_1h\": 3842.9161489915086,\n      \"price_change_24h\": 837.0962753620348,\n      \"price_change_7d\": 1850.1757598653978,\n      \"price_change_1m\": 4146.774367809408,\n      \"price_change_1y\": 8309.453100174524,\n      \"market_cap\": 223.55872202391546,\n      \"market_cap_diluted\": 4353.553470794704,\n      \"volume\": 1880.6793431813007,\n      \"volume_change_24h\": 1351.680292788291,\n      \"volume_7d\": 396.3965066493791,\n      \"liquidity\": 6621.877871380927,\n      \"liquidity_change_24h\": 179.00836982863933,\n      \"ath\": 4942.493249239093,\n      \"atl\": 3983.187787903888,\n      \"total_supply\": 5159.125159344373,\n      \"circulating_supply\": 9286.640692678919,\n      \"rank\": 3186,\n      \"contracts\": [\n        {\n          \"address\": \"string\",\n          \"blockchain\": \"string\",\n          \"blockchainId\": \"string\",\n          \"decimals\": 9578\n        },\n        {\n          \"address\": \"string\",\n          \"blockchain\": \"string\",\n          \"blockchainId\": \"string\",\n          \"decimals\": 3672\n        }\n      ]\n    },\n    {\n      \"id\": 4048,\n      \"name\": \"string\",\n      \"symbol\": \"string\",\n      \"price\": 2384.3627217391318,\n      \"price_change_1h\": 2905.6009008579576,\n      \"price_change_24h\": 125.07420461411733,\n      \"price_change_7d\": 5083.154343406536,\n      \"price_change_1m\": 9232.466610869715,\n      \"price_change_1y\": 9557.997999066843,\n      \"market_cap\": 9478.539934018312,\n      \"market_cap_diluted\": 495.56367807884527,\n      \"volume\": 1325.772053521137,\n      \"volume_change_24h\": 6909.19610236939,\n      \"volume_7d\": 6621.562501630449,\n      \"liquidity\": 6670.815427245054,\n      \"liquidity_change_24h\": 3375.376256045567,\n      \"ath\": 2148.6795855821374,\n      \"atl\": 4588.684986205044,\n      \"total_supply\": 9581.24220999518,\n      \"circulating_supply\": 5260.425846952694,\n      \"rank\": 3780,\n      \"contracts\": [\n        {\n          \"address\": \"string\",\n          \"blockchain\": \"string\",\n          \"blockchainId\": \"string\",\n          \"decimals\": 8382\n        },\n        {\n          \"address\": \"string\",\n          \"blockchain\": \"string\",\n          \"blockchainId\": \"string\",\n          \"decimals\": 9435\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4ebbb96a-b18c-4044-8abe-1c6127b8fefd",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "market",
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sortBy",
+                      "value": "market_cap"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "desc"
+                    },
+                    {
+                      "key": "filters",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "blockchain",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 3135\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "59d39fba-2851-49cb-aed5-89ec38e416ab",
+              "name": "Credit allowance exhausted or too many requests.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "market",
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sortBy",
+                      "value": "market_cap"
+                    },
+                    {
+                      "key": "sortOrder",
+                      "value": "desc"
+                    },
+                    {
+                      "key": "filters",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "blockchain",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "20"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 3135\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.mobula.io/api/1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "8299a391-75d5-48f0-937d-065a4366598d",
+    "name": "Mobula Market Search API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Faithful representative OpenAPI description of Mobula's onchain-native crypto market data REST API served under https://api.mobula.io/api/1. Covers real-time and historical token market data, multi-asset batch data, price history, trading pairs and OHLCV candles, asset/token metadata, multichain wallet portfolio, wallet net-worth history and transactions, and universal search / market query. Every request is authenticated with a free API key sent in the `Authorization` header. Endpoints and parameters follow Mobula's published REST reference; see https://docs.mobula.io/rest-api-reference/introduction for the authoritative, always-current contract.\n\nContact Support:\n Name: Mobula Support",
+      "type": "text/plain"
+    }
+  }
+}

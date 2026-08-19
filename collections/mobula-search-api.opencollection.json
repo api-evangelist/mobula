@@ -1,0 +1,96 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Mobula Market Search API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Search",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Universal search over tokens, assets, and wallets.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.mobula.io/api/1/search",
+            "params": [
+              {
+                "name": "input",
+                "value": "",
+                "type": "query",
+                "description": "The search string (name, symbol, or address)."
+              },
+              {
+                "name": "filters",
+                "value": "",
+                "type": "query",
+                "description": "Optional JSON-encoded filter object."
+              }
+            ]
+          },
+          "docs": "Free-text search that matches assets and tokens by name, symbol, or contract address (and wallets by address), ranked by relevance and liquidity."
+        },
+        {
+          "info": {
+            "name": "Filterable market screener query.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.mobula.io/api/1/market/query",
+            "params": [
+              {
+                "name": "sortBy",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by (e.g. `market_cap`, `volume`, `liquidity`)."
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filters",
+                "value": "",
+                "type": "query",
+                "description": "JSON-encoded filter object (min/max liquidity, volume, etc.)."
+              },
+              {
+                "name": "blockchain",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Screen and rank assets by market attributes such as liquidity, volume, market cap, and price change, with sorting and pagination."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

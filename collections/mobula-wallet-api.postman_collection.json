@@ -1,0 +1,894 @@
+{
+  "item": [
+    {
+      "id": "023dc731-a185-43a8-b2f6-45a8a410bef8",
+      "name": "Wallet",
+      "description": {
+        "content": "Multichain wallet portfolio, history, and transactions.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "04618707-61e4-47d2-8471-717a9f74f602",
+          "name": "Multichain wallet portfolio.",
+          "request": {
+            "name": "Multichain wallet portfolio.",
+            "description": {
+              "content": "Current holdings for one or more wallet addresses - total balance, per-asset token balances, USD estimates, allocations, and optional PnL.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wallet",
+                "portfolio"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "wallet",
+                  "value": "<string>",
+                  "description": "Single wallet address. One of `wallet` or `wallets` is required."
+                },
+                {
+                  "disabled": false,
+                  "key": "wallets",
+                  "value": "<string>",
+                  "description": "Comma-separated wallet addresses."
+                },
+                {
+                  "disabled": false,
+                  "key": "blockchains",
+                  "value": "<string>",
+                  "description": "Comma-separated blockchains to scope the portfolio to."
+                },
+                {
+                  "disabled": false,
+                  "key": "cache",
+                  "value": "<boolean>"
+                },
+                {
+                  "disabled": false,
+                  "key": "stale",
+                  "value": "<integer>",
+                  "description": "Max acceptable cache age in seconds."
+                },
+                {
+                  "disabled": false,
+                  "key": "minliq",
+                  "value": "<number>",
+                  "description": "Minimum liquidity (USD) for an asset to be included."
+                },
+                {
+                  "disabled": false,
+                  "key": "filterSpam",
+                  "value": "<boolean>"
+                },
+                {
+                  "disabled": false,
+                  "key": "shouldFetchPriceChange",
+                  "value": "<string>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c337faca-9cbe-4ffb-8108-e10352df5f64",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    "portfolio"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "wallet",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "wallets",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "blockchains",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cache",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "stale",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "minliq",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "filterSpam",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "shouldFetchPriceChange",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"total_wallet_balance\": 5977.32796878522,\n    \"wallets\": [\n      \"string\",\n      \"string\"\n    ],\n    \"total_realized_pnl\": 2242.196512776109,\n    \"total_unrealized_pnl\": 5039.884648052742,\n    \"assets\": [\n      {\n        \"asset\": {\n          \"id\": 9945,\n          \"name\": \"string\",\n          \"symbol\": \"string\",\n          \"logo\": \"string\",\n          \"description\": \"string\",\n          \"website\": \"string\",\n          \"twitter\": \"string\",\n          \"discord\": \"string\",\n          \"telegram\": \"string\",\n          \"categories\": [\n            \"string\",\n            \"string\"\n          ],\n          \"contracts\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"price\": 6491.500000786251,\n        \"token_balance\": 5554.504903522739,\n        \"estimated_balance\": 8876.595266229051,\n        \"allocation\": 171.15397952681465,\n        \"cross_chain_balances\": {\n          \"key_0\": {\n            \"address\": \"string\",\n            \"balance\": 9525.8313881454,\n            \"balanceRaw\": \"string\",\n            \"chainId\": \"string\"\n          },\n          \"key_1\": {\n            \"address\": \"string\",\n            \"balance\": 7551.914708089585,\n            \"balanceRaw\": \"string\",\n            \"chainId\": \"string\"\n          }\n        }\n      },\n      {\n        \"asset\": {\n          \"id\": 1986,\n          \"name\": \"string\",\n          \"symbol\": \"string\",\n          \"logo\": \"string\",\n          \"description\": \"string\",\n          \"website\": \"string\",\n          \"twitter\": \"string\",\n          \"discord\": \"string\",\n          \"telegram\": \"string\",\n          \"categories\": [\n            \"string\",\n            \"string\"\n          ],\n          \"contracts\": [\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          ]\n        },\n        \"price\": 5665.580492925492,\n        \"token_balance\": 9059.556144968768,\n        \"estimated_balance\": 2207.937513860663,\n        \"allocation\": 4802.220376787475,\n        \"cross_chain_balances\": {\n          \"key_0\": {\n            \"address\": \"string\",\n            \"balance\": 8174.410513255386,\n            \"balanceRaw\": \"string\",\n            \"chainId\": \"string\"\n          },\n          \"key_1\": {\n            \"address\": \"string\",\n            \"balance\": 6309.005163069404,\n            \"balanceRaw\": \"string\",\n            \"chainId\": \"string\"\n          }\n        }\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9acc5172-2ecf-4ec9-9772-da3cd09af39f",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    "portfolio"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "wallet",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "wallets",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "blockchains",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cache",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "stale",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "minliq",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "filterSpam",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "shouldFetchPriceChange",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 6188\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1503314e-e77f-412e-ba66-476af9f66732",
+              "name": "Credit allowance exhausted or too many requests.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    "portfolio"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "wallet",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "wallets",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "blockchains",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "cache",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "stale",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "minliq",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "filterSpam",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "shouldFetchPriceChange",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 6188\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a897b900-4e16-40f6-b151-8dd6ec1e4c93",
+          "name": "Historical wallet net worth.",
+          "request": {
+            "name": "Historical wallet net worth.",
+            "description": {
+              "content": "Time series of a wallet's total USD net worth over a from/to range, optionally scoped to specific blockchains.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wallet",
+                "history"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "wallet",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "wallets",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "blockchains",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "from",
+                  "value": "<long>"
+                },
+                {
+                  "disabled": false,
+                  "key": "to",
+                  "value": "<long>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "15c543b3-5127-42bf-9b4d-60295da94877",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "wallet",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "wallets",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "blockchains",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "from",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<long>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"wallets\": [\n      \"string\",\n      \"string\"\n    ],\n    \"balance_history\": [\n      [\n        1546.1993670379882,\n        2058.752112633745\n      ],\n      [\n        2540.427391939307,\n        4957.703160844367\n      ]\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a3d44b11-0670-4c84-a567-0d81449557e1",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "wallet",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "wallets",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "blockchains",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "from",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<long>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 6188\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4a5fbf1c-36d4-4bad-8e43-a64b05b940fb",
+              "name": "Credit allowance exhausted or too many requests.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "wallet",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "wallets",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "blockchains",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "from",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<long>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 6188\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8a953937-842c-4352-a68d-ba8d9125e1e3",
+          "name": "Wallet transaction and transfer history.",
+          "request": {
+            "name": "Wallet transaction and transfer history.",
+            "description": {
+              "content": "Normalized, decoded transaction and transfer feed for a wallet across chains, filterable by blockchains and time range.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wallet",
+                "transactions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "wallet",
+                  "value": "<string>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "blockchains",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "from",
+                  "value": "<long>"
+                },
+                {
+                  "disabled": false,
+                  "key": "to",
+                  "value": "<long>"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "100"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7e71d65f-fbe6-4ba4-83bc-8251fef006df",
+              "name": "OK",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "wallet",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "blockchains",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "from",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"hash\": \"string\",\n      \"blockchain\": \"string\",\n      \"timestamp\": 7530,\n      \"type\": \"string\",\n      \"from\": \"string\",\n      \"to\": \"string\",\n      \"amount\": 7615.437235802097,\n      \"amount_usd\": 6103.054962760834,\n      \"asset\": {\n        \"id\": 5482,\n        \"name\": \"string\",\n        \"symbol\": \"string\",\n        \"logo\": \"string\",\n        \"description\": \"string\",\n        \"website\": \"string\",\n        \"twitter\": \"string\",\n        \"discord\": \"string\",\n        \"telegram\": \"string\",\n        \"categories\": [\n          \"string\",\n          \"string\"\n        ],\n        \"contracts\": [\n          {\n            \"address\": \"string\",\n            \"blockchain\": \"string\",\n            \"blockchainId\": \"string\",\n            \"decimals\": 165\n          },\n          {\n            \"address\": \"string\",\n            \"blockchain\": \"string\",\n            \"blockchainId\": \"string\",\n            \"decimals\": 1603\n          }\n        ]\n      }\n    },\n    {\n      \"hash\": \"string\",\n      \"blockchain\": \"string\",\n      \"timestamp\": 91,\n      \"type\": \"string\",\n      \"from\": \"string\",\n      \"to\": \"string\",\n      \"amount\": 3706.8472219286687,\n      \"amount_usd\": 2445.588052751214,\n      \"asset\": {\n        \"id\": 1148,\n        \"name\": \"string\",\n        \"symbol\": \"string\",\n        \"logo\": \"string\",\n        \"description\": \"string\",\n        \"website\": \"string\",\n        \"twitter\": \"string\",\n        \"discord\": \"string\",\n        \"telegram\": \"string\",\n        \"categories\": [\n          \"string\",\n          \"string\"\n        ],\n        \"contracts\": [\n          {\n            \"address\": \"string\",\n            \"blockchain\": \"string\",\n            \"blockchainId\": \"string\",\n            \"decimals\": 5212\n          },\n          {\n            \"address\": \"string\",\n            \"blockchain\": \"string\",\n            \"blockchainId\": \"string\",\n            \"decimals\": 7078\n          }\n        ]\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d43c2f70-57f5-43ef-bfa4-9a1a2a733370",
+              "name": "Missing or invalid API key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "wallet",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "blockchains",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "from",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 6188\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e35aa66e-2ac6-4576-9503-14f6a9ca6236",
+              "name": "Credit allowance exhausted or too many requests.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wallet",
+                    "transactions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "wallet",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "blockchains",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "from",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<long>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 6188\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.mobula.io/api/1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "27a657a4-750e-4508-baaf-fc40d80fd4a6",
+    "name": "Mobula Market Wallet API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Faithful representative OpenAPI description of Mobula's onchain-native crypto market data REST API served under https://api.mobula.io/api/1. Covers real-time and historical token market data, multi-asset batch data, price history, trading pairs and OHLCV candles, asset/token metadata, multichain wallet portfolio, wallet net-worth history and transactions, and universal search / market query. Every request is authenticated with a free API key sent in the `Authorization` header. Endpoints and parameters follow Mobula's published REST reference; see https://docs.mobula.io/rest-api-reference/introduction for the authoritative, always-current contract.\n\nContact Support:\n Name: Mobula Support",
+      "type": "text/plain"
+    }
+  }
+}

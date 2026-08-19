@@ -1,0 +1,165 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Mobula Market Wallet API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Wallet",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Multichain wallet portfolio.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.mobula.io/api/1/wallet/portfolio",
+            "params": [
+              {
+                "name": "wallet",
+                "value": "",
+                "type": "query",
+                "description": "Single wallet address. One of `wallet` or `wallets` is required."
+              },
+              {
+                "name": "wallets",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated wallet addresses."
+              },
+              {
+                "name": "blockchains",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated blockchains to scope the portfolio to."
+              },
+              {
+                "name": "cache",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "stale",
+                "value": "",
+                "type": "query",
+                "description": "Max acceptable cache age in seconds."
+              },
+              {
+                "name": "minliq",
+                "value": "",
+                "type": "query",
+                "description": "Minimum liquidity (USD) for an asset to be included."
+              },
+              {
+                "name": "filterSpam",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "shouldFetchPriceChange",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Current holdings for one or more wallet addresses - total balance, per-asset token balances, USD estimates, allocations, and optional PnL."
+        },
+        {
+          "info": {
+            "name": "Historical wallet net worth.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.mobula.io/api/1/wallet/history",
+            "params": [
+              {
+                "name": "wallet",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "wallets",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "blockchains",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Time series of a wallet's total USD net worth over a from/to range, optionally scoped to specific blockchains."
+        },
+        {
+          "info": {
+            "name": "Wallet transaction and transfer history.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.mobula.io/api/1/wallet/transactions",
+            "params": [
+              {
+                "name": "wallet",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "blockchains",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Normalized, decoded transaction and transfer feed for a wallet across chains, filterable by blockchains and time range."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,205 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Mobula Market API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Market",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Real-time market data for a single asset.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.mobula.io/api/1/market/data",
+            "params": [
+              {
+                "name": "asset",
+                "value": "",
+                "type": "query",
+                "description": "Token name or contract address (e.g. `Bitcoin` or `0x...`)."
+              },
+              {
+                "name": "blockchain",
+                "value": "",
+                "type": "query",
+                "description": "Blockchain name or chain id; required when `asset` is a contract address."
+              },
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query",
+                "description": "Token ticker symbol (e.g. `BTC`)."
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "Mobula asset unique identifier."
+              },
+              {
+                "name": "shouldFetchPriceChange",
+                "value": "",
+                "type": "query",
+                "description": "Timeframe for the price-change fields (e.g. `24h`)."
+              }
+            ]
+          },
+          "docs": "Returns real-time market data for one token identified by asset name, symbol, numeric id, or contract address. When querying by contract address, `blockchain` is required."
+        },
+        {
+          "info": {
+            "name": "Real-time market data for many assets at once.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.mobula.io/api/1/market/multi-data",
+            "params": [
+              {
+                "name": "assets",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated asset names or contract addresses."
+              },
+              {
+                "name": "blockchains",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated blockchains aligned with contract-address assets."
+              }
+            ]
+          },
+          "docs": "Batched market data for multiple tokens in one call. Provide a comma separated list of asset names via `assets`, or contract addresses via `blockchains` + `assets`. Returns a map keyed by asset."
+        },
+        {
+          "info": {
+            "name": "Historical price time series for an asset.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.mobula.io/api/1/market/history",
+            "params": [
+              {
+                "name": "asset",
+                "value": "",
+                "type": "query",
+                "description": "Token name or contract address."
+              },
+              {
+                "name": "blockchain",
+                "value": "",
+                "type": "query",
+                "description": "Blockchain name or chain id; required for contract-address queries."
+              },
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Start of the range as a Unix timestamp (ms)."
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "End of the range as a Unix timestamp (ms)."
+              }
+            ]
+          },
+          "docs": "Ordered historical price points for an asset over an optional from/to range. Returns `[timestamp, price]` pairs suitable for charting."
+        },
+        {
+          "info": {
+            "name": "Trading pairs for a token across DEXes.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.mobula.io/api/1/market/pairs",
+            "params": [
+              {
+                "name": "asset",
+                "value": "",
+                "type": "query",
+                "description": "Token name or contract address."
+              },
+              {
+                "name": "blockchain",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "symbol",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Lists trading pairs (pools) for an asset with per-pair liquidity, volume, price, and pair address across supported blockchains."
+        },
+        {
+          "info": {
+            "name": "OHLCV candle history for a pair.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.mobula.io/api/1/market/pair",
+            "params": [
+              {
+                "name": "address",
+                "value": "",
+                "type": "query",
+                "description": "Pair (pool) contract address."
+              },
+              {
+                "name": "blockchain",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "period",
+                "value": "",
+                "type": "query",
+                "description": "Candle period (e.g. `1m`, `5m`, `1h`, `1d`)."
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Open/high/low/close/volume candles for a specific pair over a period and time range, keyed by pair address and blockchain."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
