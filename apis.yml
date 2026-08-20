@@ -26,6 +26,13 @@ tags:
 - Web3
 - Market Data
 - Blockchain
+- Wallets
+- Real-Time
+tags_raw:
+- Crypto
+- Web3
+- Market Data
+- Blockchain
 - Wallet
 - Real Time
 created: '2026-07-01'
@@ -104,6 +111,8 @@ apis:
   humanURL: https://docs.mobula.io/rest-api-reference/endpoint/market-data
   baseURL: https://api.mobula.io/api/1
   tags:
+  - Wallets
+  tags_raw:
   - Wallet
   properties:
   - type: OpenAPI
