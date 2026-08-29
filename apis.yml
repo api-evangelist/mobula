@@ -7,6 +7,18 @@ description: Mobula is an onchain-native crypto and web3 market data provider. I
   metadata, trading pairs and OHLCV candles, and multichain wallet portfolio, net-worth
   history, and transaction data across EVM, Solana, TON, and other chains, all keyed
   off a single free API key.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-serve
