@@ -58,6 +58,8 @@ apis:
   humanURL: https://docs.mobula.io/rest-api-reference/endpoint/market-data
   baseURL: https://api.mobula.io/api/1
   tags:
+  - Markets
+  tags_raw:
   - Market
   properties:
   - type: OpenAPI
