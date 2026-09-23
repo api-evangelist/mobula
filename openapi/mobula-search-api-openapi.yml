@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Mobula Market Search API
-  description: Faithful representative OpenAPI description of Mobula's onchain-native crypto market data REST API served under https://api.mobula.io/api/1. Covers real-time and historical token market data, multi-asset batch data, price history, trading pairs and OHLCV candles, asset/token metadata, multichain wallet portfolio, wallet net-worth history and transactions, and universal search / market query. Every request is authenticated with a free API key sent in the `Authorization` header. Endpoints and parameters follow Mobula's published REST reference; see https://docs.mobula.io/rest-api-reference/introduction for the authoritative, always-current contract.
+  title: Mobula Search API
+  description: Faithful representative OpenAPI description of Mobula's onchain-native crypto market data REST API served under https://api.mobula.io/api/1.
   termsOfService: https://mobula.io/terms
   contact:
     name: Mobula Support
@@ -23,7 +23,7 @@ paths:
       operationId: search
       tags:
       - Search
-      summary: Universal search over tokens, assets, and wallets.
+      summary: Universal search over tokens, assets, and wallets
       description: Free-text search that matches assets and tokens by name, symbol, or contract address (and wallets by address), ranked by relevance and liquidity.
       parameters:
       - name: input
@@ -59,7 +59,7 @@ paths:
       operationId: marketQuery
       tags:
       - Search
-      summary: Filterable market screener query.
+      summary: Filterable market screener query
       description: Screen and rank assets by market attributes such as liquidity, volume, market cap, and price change, with sorting and pagination.
       parameters:
       - name: sortBy
@@ -119,24 +119,28 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   schemas:
-    Contract:
+    SearchResult:
       type: object
       properties:
-        address:
+        name:
           type: string
-        blockchain:
+        symbol:
           type: string
-        blockchainId:
+        type:
           type: string
-        decimals:
-          type: integer
-    Error:
-      type: object
-      properties:
-        message:
+          description: Result kind (asset, token, or wallet).
+        logo:
           type: string
-        statusCode:
-          type: integer
+        price:
+          type: number
+        market_cap:
+          type: number
+        liquidity:
+          type: number
+        contracts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Contract'
     MarketData:
       type: object
       description: Real-time market data for an asset.
@@ -187,37 +191,33 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Contract'
-    SearchResult:
+    Contract:
       type: object
       properties:
-        name:
+        address:
           type: string
-        symbol:
+        blockchain:
           type: string
-        type:
+        blockchainId:
           type: string
-          description: Result kind (asset, token, or wallet).
-        logo:
+        decimals:
+          type: integer
+    Error:
+      type: object
+      properties:
+        message:
           type: string
-        price:
-          type: number
-        market_cap:
-          type: number
-        liquidity:
-          type: number
-        contracts:
-          type: array
-          items:
-            $ref: '#/components/schemas/Contract'
+        statusCode:
+          type: integer
   responses:
-    Unauthorized:
-      description: Missing or invalid API key.
+    RateLimited:
+      description: Credit allowance exhausted or too many requests.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Credit allowance exhausted or too many requests.
+    Unauthorized:
+      description: Missing or invalid API key.
       content:
         application/json:
           schema:

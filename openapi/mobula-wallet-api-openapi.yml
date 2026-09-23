@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Mobula Market Wallet API
-  description: Faithful representative OpenAPI description of Mobula's onchain-native crypto market data REST API served under https://api.mobula.io/api/1. Covers real-time and historical token market data, multi-asset batch data, price history, trading pairs and OHLCV candles, asset/token metadata, multichain wallet portfolio, wallet net-worth history and transactions, and universal search / market query. Every request is authenticated with a free API key sent in the `Authorization` header. Endpoints and parameters follow Mobula's published REST reference; see https://docs.mobula.io/rest-api-reference/introduction for the authoritative, always-current contract.
+  title: Mobula Wallet API
+  description: Faithful representative OpenAPI description of Mobula's onchain-native crypto market data REST API served under https://api.mobula.io/api/1.
   termsOfService: https://mobula.io/terms
   contact:
     name: Mobula Support
@@ -23,7 +23,7 @@ paths:
       operationId: getWalletPortfolio
       tags:
       - Wallet
-      summary: Multichain wallet portfolio.
+      summary: Multichain wallet portfolio
       description: Current holdings for one or more wallet addresses - total balance, per-asset token balances, USD estimates, allocations, and optional PnL.
       parameters:
       - name: wallet
@@ -90,7 +90,7 @@ paths:
       operationId: getWalletHistory
       tags:
       - Wallet
-      summary: Historical wallet net worth.
+      summary: Historical wallet net worth
       description: Time series of a wallet's total USD net worth over a from/to range, optionally scoped to specific blockchains.
       parameters:
       - name: wallet
@@ -151,7 +151,7 @@ paths:
       operationId: getWalletTransactions
       tags:
       - Wallet
-      summary: Wallet transaction and transfer history.
+      summary: Wallet transaction and transfer history
       description: Normalized, decoded transaction and transfer feed for a wallet across chains, filterable by blockchains and time range.
       parameters:
       - name: wallet
@@ -205,41 +205,20 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimited'
 components:
+  responses:
+    RateLimited:
+      description: Credit allowance exhausted or too many requests.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    Contract:
-      type: object
-      properties:
-        address:
-          type: string
-        blockchain:
-          type: string
-        blockchainId:
-          type: string
-        decimals:
-          type: integer
-    Transaction:
-      type: object
-      properties:
-        hash:
-          type: string
-        blockchain:
-          type: string
-        timestamp:
-          type: integer
-          format: int64
-        type:
-          type: string
-          description: Normalized action (e.g. swap, transfer, receive, send).
-        from:
-          type: string
-        to:
-          type: string
-        amount:
-          type: number
-        amount_usd:
-          type: number
-        asset:
-          $ref: '#/components/schemas/Metadata'
     PortfolioAsset:
       type: object
       properties:
@@ -268,30 +247,39 @@ components:
                 type: string
               chainId:
                 type: string
-    Portfolio:
+    Transaction:
       type: object
       properties:
-        total_wallet_balance:
-          type: number
-          description: Total portfolio value in USD.
-        wallets:
-          type: array
-          items:
-            type: string
-        total_realized_pnl:
-          type: number
-        total_unrealized_pnl:
-          type: number
-        assets:
-          type: array
-          items:
-            $ref: '#/components/schemas/PortfolioAsset'
-    Error:
-      type: object
-      properties:
-        message:
+        hash:
           type: string
-        statusCode:
+        blockchain:
+          type: string
+        timestamp:
+          type: integer
+          format: int64
+        type:
+          type: string
+          description: Normalized action (e.g. swap, transfer, receive, send).
+        from:
+          type: string
+        to:
+          type: string
+        amount:
+          type: number
+        amount_usd:
+          type: number
+        asset:
+          $ref: '#/components/schemas/Metadata'
+    Contract:
+      type: object
+      properties:
+        address:
+          type: string
+        blockchain:
+          type: string
+        blockchainId:
+          type: string
+        decimals:
           type: integer
     Metadata:
       type: object
@@ -322,19 +310,31 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Contract'
-  responses:
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Credit allowance exhausted or too many requests.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    Portfolio:
+      type: object
+      properties:
+        total_wallet_balance:
+          type: number
+          description: Total portfolio value in USD.
+        wallets:
+          type: array
+          items:
+            type: string
+        total_realized_pnl:
+          type: number
+        total_unrealized_pnl:
+          type: number
+        assets:
+          type: array
+          items:
+            $ref: '#/components/schemas/PortfolioAsset'
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        statusCode:
+          type: integer
   securitySchemes:
     apiKeyAuth:
       type: apiKey

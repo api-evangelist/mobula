@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: Mobula Market API
-  description: Faithful representative OpenAPI description of Mobula's onchain-native crypto market data REST API served under https://api.mobula.io/api/1. Covers real-time and historical token market data, multi-asset batch data, price history, trading pairs and OHLCV candles, asset/token metadata, multichain wallet portfolio, wallet net-worth history and transactions, and universal search / market query. Every request is authenticated with a free API key sent in the `Authorization` header. Endpoints and parameters follow Mobula's published REST reference; see https://docs.mobula.io/rest-api-reference/introduction for the authoritative, always-current contract.
+  description: Faithful representative OpenAPI description of Mobula's onchain-native crypto market data REST API served under https://api.mobula.io/api/1.
   termsOfService: https://mobula.io/terms
   contact:
     name: Mobula Support
@@ -23,7 +23,7 @@ paths:
       operationId: getMarketData
       tags:
       - Market
-      summary: Real-time market data for a single asset.
+      summary: Real-time market data for a single asset
       description: Returns real-time market data for one token identified by asset name, symbol, numeric id, or contract address. When querying by contract address, `blockchain` is required.
       parameters:
       - name: asset
@@ -75,7 +75,7 @@ paths:
       operationId: getMarketMultiData
       tags:
       - Market
-      summary: Real-time market data for many assets at once.
+      summary: Real-time market data for many assets at once
       description: Batched market data for multiple tokens in one call. Provide a comma separated list of asset names via `assets`, or contract addresses via `blockchains` + `assets`. Returns a map keyed by asset.
       parameters:
       - name: assets
@@ -111,7 +111,7 @@ paths:
       operationId: getMarketHistory
       tags:
       - Market
-      summary: Historical price time series for an asset.
+      summary: Historical price time series for an asset
       description: Ordered historical price points for an asset over an optional from/to range. Returns `[timestamp, price]` pairs suitable for charting.
       parameters:
       - name: asset
@@ -176,7 +176,7 @@ paths:
       operationId: getMarketPairs
       tags:
       - Market
-      summary: Trading pairs for a token across DEXes.
+      summary: Trading pairs for a token across DEXes
       description: Lists trading pairs (pools) for an asset with per-pair liquidity, volume, price, and pair address across supported blockchains.
       parameters:
       - name: asset
@@ -219,7 +219,7 @@ paths:
       operationId: getMarketPairOhlcv
       tags:
       - Market
-      summary: OHLCV candle history for a pair.
+      summary: OHLCV candle history for a pair
       description: Open/high/low/close/volume candles for a specific pair over a period and time range, keyed by pair address and blockchain.
       parameters:
       - name: address
@@ -270,24 +270,6 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   schemas:
-    Contract:
-      type: object
-      properties:
-        address:
-          type: string
-        blockchain:
-          type: string
-        blockchainId:
-          type: string
-        decimals:
-          type: integer
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-        statusCode:
-          type: integer
     Pair:
       type: object
       properties:
@@ -316,24 +298,6 @@ components:
           type: number
         createdAt:
           type: string
-    Ohlcv:
-      type: object
-      description: A single OHLCV candle.
-      properties:
-        time:
-          type: integer
-          format: int64
-          description: Candle open time (Unix ms).
-        open:
-          type: number
-        high:
-          type: number
-        low:
-          type: number
-        close:
-          type: number
-        volume:
-          type: number
     MarketData:
       type: object
       description: Real-time market data for an asset.
@@ -395,15 +359,51 @@ components:
           type: string
         decimals:
           type: integer
+    Ohlcv:
+      type: object
+      description: A single OHLCV candle.
+      properties:
+        time:
+          type: integer
+          format: int64
+          description: Candle open time (Unix ms).
+        open:
+          type: number
+        high:
+          type: number
+        low:
+          type: number
+        close:
+          type: number
+        volume:
+          type: number
+    Contract:
+      type: object
+      properties:
+        address:
+          type: string
+        blockchain:
+          type: string
+        blockchainId:
+          type: string
+        decimals:
+          type: integer
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        statusCode:
+          type: integer
   responses:
-    Unauthorized:
-      description: Missing or invalid API key.
+    RateLimited:
+      description: Credit allowance exhausted or too many requests.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Credit allowance exhausted or too many requests.
+    Unauthorized:
+      description: Missing or invalid API key.
       content:
         application/json:
           schema:

@@ -1,10 +1,7 @@
 {
   "provider": "mobula",
   "sources": [
-    "mobula-market-api-openapi.yml",
-    "mobula-metadata-api-openapi.yml",
-    "mobula-search-api-openapi.yml",
-    "mobula-wallet-api-openapi.yml"
+    "_original/mobula-openapi.yml"
   ],
   "outputs": [
     "mobula-market-api-openapi.yml",
@@ -15,6 +12,15 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "mobula-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "mobula-market-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "mobula-metadata-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "mobula-search-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "mobula-wallet-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

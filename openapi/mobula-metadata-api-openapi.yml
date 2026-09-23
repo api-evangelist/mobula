@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Mobula Market Metadata API
-  description: Faithful representative OpenAPI description of Mobula's onchain-native crypto market data REST API served under https://api.mobula.io/api/1. Covers real-time and historical token market data, multi-asset batch data, price history, trading pairs and OHLCV candles, asset/token metadata, multichain wallet portfolio, wallet net-worth history and transactions, and universal search / market query. Every request is authenticated with a free API key sent in the `Authorization` header. Endpoints and parameters follow Mobula's published REST reference; see https://docs.mobula.io/rest-api-reference/introduction for the authoritative, always-current contract.
+  title: Mobula Metadata API
+  description: Faithful representative OpenAPI description of Mobula's onchain-native crypto market data REST API served under https://api.mobula.io/api/1.
   termsOfService: https://mobula.io/terms
   contact:
     name: Mobula Support
@@ -23,7 +23,7 @@ paths:
       operationId: getMetadata
       tags:
       - Metadata
-      summary: Asset and token metadata.
+      summary: Asset and token metadata
       description: On-chain metadata for an asset - name, symbol, logo, description, website, socials, categories, and multichain contracts with decimals.
       parameters:
       - name: asset
@@ -57,6 +57,19 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimited'
 components:
+  responses:
+    RateLimited:
+      description: Credit allowance exhausted or too many requests.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
     Contract:
       type: object
@@ -68,13 +81,6 @@ components:
         blockchainId:
           type: string
         decimals:
-          type: integer
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-        statusCode:
           type: integer
     Metadata:
       type: object
@@ -105,19 +111,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Contract'
-  responses:
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Credit allowance exhausted or too many requests.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        statusCode:
+          type: integer
   securitySchemes:
     apiKeyAuth:
       type: apiKey
