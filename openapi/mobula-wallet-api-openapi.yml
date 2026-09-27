@@ -205,71 +205,32 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimited'
 components:
-  responses:
-    RateLimited:
-      description: Credit allowance exhausted or too many requests.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    PortfolioAsset:
+    Error:
       type: object
       properties:
-        asset:
-          $ref: '#/components/schemas/Metadata'
-        price:
-          type: number
-        token_balance:
-          type: number
-        estimated_balance:
-          type: number
-          description: USD value of the holding.
-        allocation:
-          type: number
-          description: Percent of the total portfolio.
-        cross_chain_balances:
-          type: object
-          additionalProperties:
-            type: object
-            properties:
-              address:
-                type: string
-              balance:
-                type: number
-              balanceRaw:
-                type: string
-              chainId:
-                type: string
-    Transaction:
-      type: object
-      properties:
-        hash:
+        message:
           type: string
-        blockchain:
-          type: string
-        timestamp:
+        statusCode:
           type: integer
-          format: int64
-        type:
-          type: string
-          description: Normalized action (e.g. swap, transfer, receive, send).
-        from:
-          type: string
-        to:
-          type: string
-        amount:
+    Portfolio:
+      type: object
+      properties:
+        total_wallet_balance:
           type: number
-        amount_usd:
+          description: Total portfolio value in USD.
+        wallets:
+          type: array
+          items:
+            type: string
+        total_realized_pnl:
           type: number
-        asset:
-          $ref: '#/components/schemas/Metadata'
+        total_unrealized_pnl:
+          type: number
+        assets:
+          type: array
+          items:
+            $ref: '#/components/schemas/PortfolioAsset'
     Contract:
       type: object
       properties:
@@ -310,31 +271,70 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Contract'
-    Portfolio:
+    Transaction:
       type: object
       properties:
-        total_wallet_balance:
-          type: number
-          description: Total portfolio value in USD.
-        wallets:
-          type: array
-          items:
-            type: string
-        total_realized_pnl:
-          type: number
-        total_unrealized_pnl:
-          type: number
-        assets:
-          type: array
-          items:
-            $ref: '#/components/schemas/PortfolioAsset'
-    Error:
-      type: object
-      properties:
-        message:
+        hash:
           type: string
-        statusCode:
+        blockchain:
+          type: string
+        timestamp:
           type: integer
+          format: int64
+        type:
+          type: string
+          description: Normalized action (e.g. swap, transfer, receive, send).
+        from:
+          type: string
+        to:
+          type: string
+        amount:
+          type: number
+        amount_usd:
+          type: number
+        asset:
+          $ref: '#/components/schemas/Metadata'
+    PortfolioAsset:
+      type: object
+      properties:
+        asset:
+          $ref: '#/components/schemas/Metadata'
+        price:
+          type: number
+        token_balance:
+          type: number
+        estimated_balance:
+          type: number
+          description: USD value of the holding.
+        allocation:
+          type: number
+          description: Percent of the total portfolio.
+        cross_chain_balances:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              address:
+                type: string
+              balance:
+                type: number
+              balanceRaw:
+                type: string
+              chainId:
+                type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Credit allowance exhausted or too many requests.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     apiKeyAuth:
       type: apiKey

@@ -119,28 +119,6 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   schemas:
-    SearchResult:
-      type: object
-      properties:
-        name:
-          type: string
-        symbol:
-          type: string
-        type:
-          type: string
-          description: Result kind (asset, token, or wallet).
-        logo:
-          type: string
-        price:
-          type: number
-        market_cap:
-          type: number
-        liquidity:
-          type: number
-        contracts:
-          type: array
-          items:
-            $ref: '#/components/schemas/Contract'
     MarketData:
       type: object
       description: Real-time market data for an asset.
@@ -191,6 +169,35 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Contract'
+    SearchResult:
+      type: object
+      properties:
+        name:
+          type: string
+        symbol:
+          type: string
+        type:
+          type: string
+          description: Result kind (asset, token, or wallet).
+        logo:
+          type: string
+        price:
+          type: number
+        market_cap:
+          type: number
+        liquidity:
+          type: number
+        contracts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Contract'
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        statusCode:
+          type: integer
     Contract:
       type: object
       properties:
@@ -202,22 +209,15 @@ components:
           type: string
         decimals:
           type: integer
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-        statusCode:
-          type: integer
   responses:
-    RateLimited:
-      description: Credit allowance exhausted or too many requests.
+    Unauthorized:
+      description: Missing or invalid API key.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
+    RateLimited:
+      description: Credit allowance exhausted or too many requests.
       content:
         application/json:
           schema:

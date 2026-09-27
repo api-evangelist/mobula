@@ -270,34 +270,6 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   schemas:
-    Pair:
-      type: object
-      properties:
-        address:
-          type: string
-        blockchain:
-          type: string
-        exchange:
-          type: object
-          properties:
-            name:
-              type: string
-            logo:
-              type: string
-        token0:
-          $ref: '#/components/schemas/PairToken'
-        token1:
-          $ref: '#/components/schemas/PairToken'
-        price:
-          type: number
-        priceToken:
-          type: number
-        liquidity:
-          type: number
-        volume24h:
-          type: number
-        createdAt:
-          type: string
     MarketData:
       type: object
       description: Real-time market data for an asset.
@@ -348,6 +320,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Contract'
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        statusCode:
+          type: integer
     PairToken:
       type: object
       properties:
@@ -359,6 +338,45 @@ components:
           type: string
         decimals:
           type: integer
+    Contract:
+      type: object
+      properties:
+        address:
+          type: string
+        blockchain:
+          type: string
+        blockchainId:
+          type: string
+        decimals:
+          type: integer
+    Pair:
+      type: object
+      properties:
+        address:
+          type: string
+        blockchain:
+          type: string
+        exchange:
+          type: object
+          properties:
+            name:
+              type: string
+            logo:
+              type: string
+        token0:
+          $ref: '#/components/schemas/PairToken'
+        token1:
+          $ref: '#/components/schemas/PairToken'
+        price:
+          type: number
+        priceToken:
+          type: number
+        liquidity:
+          type: number
+        volume24h:
+          type: number
+        createdAt:
+          type: string
     Ohlcv:
       type: object
       description: A single OHLCV candle.
@@ -377,33 +395,15 @@ components:
           type: number
         volume:
           type: number
-    Contract:
-      type: object
-      properties:
-        address:
-          type: string
-        blockchain:
-          type: string
-        blockchainId:
-          type: string
-        decimals:
-          type: integer
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-        statusCode:
-          type: integer
   responses:
-    RateLimited:
-      description: Credit allowance exhausted or too many requests.
+    Unauthorized:
+      description: Missing or invalid API key.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid API key.
+    RateLimited:
+      description: Credit allowance exhausted or too many requests.
       content:
         application/json:
           schema:
