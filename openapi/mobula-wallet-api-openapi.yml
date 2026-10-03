@@ -205,14 +205,48 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimited'
 components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    RateLimited:
+      description: Credit allowance exhausted or too many requests.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    Error:
+    PortfolioAsset:
       type: object
       properties:
-        message:
-          type: string
-        statusCode:
-          type: integer
+        asset:
+          $ref: '#/components/schemas/Metadata'
+        price:
+          type: number
+        token_balance:
+          type: number
+        estimated_balance:
+          type: number
+          description: USD value of the holding.
+        allocation:
+          type: number
+          description: Percent of the total portfolio.
+        cross_chain_balances:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              address:
+                type: string
+              balance:
+                type: number
+              balanceRaw:
+                type: string
+              chainId:
+                type: string
     Portfolio:
       type: object
       properties:
@@ -231,17 +265,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PortfolioAsset'
-    Contract:
+    Transaction:
       type: object
       properties:
-        address:
+        hash:
           type: string
         blockchain:
           type: string
-        blockchainId:
-          type: string
-        decimals:
+        timestamp:
           type: integer
+          format: int64
+        type:
+          type: string
+          description: Normalized action (e.g. swap, transfer, receive, send).
+        from:
+          type: string
+        to:
+          type: string
+        amount:
+          type: number
+        amount_usd:
+          type: number
+        asset:
+          $ref: '#/components/schemas/Metadata'
     Metadata:
       type: object
       properties:
@@ -271,70 +317,24 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Contract'
-    Transaction:
+    Error:
       type: object
       properties:
-        hash:
+        message:
+          type: string
+        statusCode:
+          type: integer
+    Contract:
+      type: object
+      properties:
+        address:
           type: string
         blockchain:
           type: string
-        timestamp:
+        blockchainId:
+          type: string
+        decimals:
           type: integer
-          format: int64
-        type:
-          type: string
-          description: Normalized action (e.g. swap, transfer, receive, send).
-        from:
-          type: string
-        to:
-          type: string
-        amount:
-          type: number
-        amount_usd:
-          type: number
-        asset:
-          $ref: '#/components/schemas/Metadata'
-    PortfolioAsset:
-      type: object
-      properties:
-        asset:
-          $ref: '#/components/schemas/Metadata'
-        price:
-          type: number
-        token_balance:
-          type: number
-        estimated_balance:
-          type: number
-          description: USD value of the holding.
-        allocation:
-          type: number
-          description: Percent of the total portfolio.
-        cross_chain_balances:
-          type: object
-          additionalProperties:
-            type: object
-            properties:
-              address:
-                type: string
-              balance:
-                type: number
-              balanceRaw:
-                type: string
-              chainId:
-                type: string
-  responses:
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Credit allowance exhausted or too many requests.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     apiKeyAuth:
       type: apiKey
