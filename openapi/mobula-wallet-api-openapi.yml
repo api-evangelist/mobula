@@ -206,19 +206,48 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   responses:
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     RateLimited:
       description: Credit allowance exhausted or too many requests.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
+    Metadata:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        symbol:
+          type: string
+        logo:
+          type: string
+        description:
+          type: string
+        website:
+          type: string
+        twitter:
+          type: string
+        discord:
+          type: string
+        telegram:
+          type: string
+        categories:
+          type: array
+          items:
+            type: string
+        contracts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Contract'
     PortfolioAsset:
       type: object
       properties:
@@ -247,6 +276,24 @@ components:
                 type: string
               chainId:
                 type: string
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        statusCode:
+          type: integer
+    Contract:
+      type: object
+      properties:
+        address:
+          type: string
+        blockchain:
+          type: string
+        blockchainId:
+          type: string
+        decimals:
+          type: integer
     Portfolio:
       type: object
       properties:
@@ -288,53 +335,6 @@ components:
           type: number
         asset:
           $ref: '#/components/schemas/Metadata'
-    Metadata:
-      type: object
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-        symbol:
-          type: string
-        logo:
-          type: string
-        description:
-          type: string
-        website:
-          type: string
-        twitter:
-          type: string
-        discord:
-          type: string
-        telegram:
-          type: string
-        categories:
-          type: array
-          items:
-            type: string
-        contracts:
-          type: array
-          items:
-            $ref: '#/components/schemas/Contract'
-    Error:
-      type: object
-      properties:
-        message:
-          type: string
-        statusCode:
-          type: integer
-    Contract:
-      type: object
-      properties:
-        address:
-          type: string
-        blockchain:
-          type: string
-        blockchainId:
-          type: string
-        decimals:
-          type: integer
   securitySchemes:
     apiKeyAuth:
       type: apiKey

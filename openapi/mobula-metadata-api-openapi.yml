@@ -58,14 +58,14 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   responses:
-    Unauthorized:
-      description: Missing or invalid API key.
+    RateLimited:
+      description: Credit allowance exhausted or too many requests.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Credit allowance exhausted or too many requests.
+    Unauthorized:
+      description: Missing or invalid API key.
       content:
         application/json:
           schema:

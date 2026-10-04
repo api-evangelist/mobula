@@ -269,66 +269,18 @@ paths:
         '429':
           $ref: '#/components/responses/RateLimited'
 components:
-  responses:
-    Unauthorized:
-      description: Missing or invalid API key.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    RateLimited:
-      description: Credit allowance exhausted or too many requests.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    Pair:
+    PairToken:
       type: object
       properties:
         address:
           type: string
-        blockchain:
+        symbol:
           type: string
-        exchange:
-          type: object
-          properties:
-            name:
-              type: string
-            logo:
-              type: string
-        token0:
-          $ref: '#/components/schemas/PairToken'
-        token1:
-          $ref: '#/components/schemas/PairToken'
-        price:
-          type: number
-        priceToken:
-          type: number
-        liquidity:
-          type: number
-        volume24h:
-          type: number
-        createdAt:
+        name:
           type: string
-    Ohlcv:
-      type: object
-      description: A single OHLCV candle.
-      properties:
-        time:
+        decimals:
           type: integer
-          format: int64
-          description: Candle open time (Unix ms).
-        open:
-          type: number
-        high:
-          type: number
-        low:
-          type: number
-        close:
-          type: number
-        volume:
-          type: number
     MarketData:
       type: object
       description: Real-time market data for an asset.
@@ -397,17 +349,65 @@ components:
           type: string
         decimals:
           type: integer
-    PairToken:
+    Pair:
       type: object
       properties:
         address:
           type: string
-        symbol:
+        blockchain:
           type: string
-        name:
+        exchange:
+          type: object
+          properties:
+            name:
+              type: string
+            logo:
+              type: string
+        token0:
+          $ref: '#/components/schemas/PairToken'
+        token1:
+          $ref: '#/components/schemas/PairToken'
+        price:
+          type: number
+        priceToken:
+          type: number
+        liquidity:
+          type: number
+        volume24h:
+          type: number
+        createdAt:
           type: string
-        decimals:
+    Ohlcv:
+      type: object
+      description: A single OHLCV candle.
+      properties:
+        time:
           type: integer
+          format: int64
+          description: Candle open time (Unix ms).
+        open:
+          type: number
+        high:
+          type: number
+        low:
+          type: number
+        close:
+          type: number
+        volume:
+          type: number
+  responses:
+    RateLimited:
+      description: Credit allowance exhausted or too many requests.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid API key.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     apiKeyAuth:
       type: apiKey
