@@ -1,4 +1,4 @@
-# Mobula (mobula)
+# Mobula
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,215 +66,141 @@
 
 Mobula is an onchain-native crypto and web3 market data provider. Its REST and WebSocket APIs serve real-time and historical token prices, asset and token metadata, trading pairs and OHLCV candles, and multichain wallet portfolio, net-worth history, and transaction data across EVM, Solana, TON, and other chains, all keyed off a single free API key.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/mobula/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/mobula/refs/heads/main/apis.yml)
+**Areas:** Cryptocurrency · Web3 · Market Data · Blockchain · Wallets · Real-Time
 
-## Tags
+## Mobula on APIs.io
 
-- Crypto
-- Web3
-- Market Data
-- Blockchain
-- Wallet
-- Real Time
+Everything profiled for Mobula is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/mobula/](https://apis.io/providers/mobula/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (4)
 
-- **Created:** 2026-07-01
-- **Modified:** 2026-07-01
+- [Mobula Market API](https://apis.io/apis/mobula/mobula-market-api/) — Real-time and historical market data for tokens and assets.
+- [Mobula Metadata API](https://apis.io/apis/mobula/mobula-metadata-api/) — Asset and token metadata.
+- [Mobula Search API](https://apis.io/apis/mobula/mobula-search-api/) — Universal search and filterable market queries.
+- [Mobula Wallet API](https://apis.io/apis/mobula/mobula-wallet-api/) — Multichain wallet portfolio, history, and transactions.
 
-## APIs
+### Published properties
 
-### Mobula Market Data API
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-Real-time market data for any token by asset name, symbol, id, or contract address (with blockchain), returning price, market cap, diluted market cap, volume, liquidity, ATH/ATL, multi-timeframe price change, and contract details.
+#### AsyncAPI (1)
 
-- **Human URL:** [https://docs.mobula.io/rest-api-reference/endpoint/market-data](https://docs.mobula.io/rest-api-reference/endpoint/market-data)
-- **Base URL:** `https://api.mobula.io/api/1`
+Event-driven and webhook contracts.
 
-#### Tags
+- [Mobula Realtime Feed (WebSocket)](https://apis.io/asyncapis/mobula/mobula-asyncapi/)
 
-- Market Data
-- Price
-- Crypto
+#### Event channels (2)
 
-#### Properties
+Individual events and webhooks the provider emits.
 
-- [Documentation](https://docs.mobula.io/rest-api-reference/endpoint/market-data)
-- [API Reference](https://docs.mobula.io/rest-api-reference/introduction)
-- [OpenAPI](openapi/mobula-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/mobula.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/mobula.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [market](https://apis.io/channels/mobula/market/)
+- [wallet](https://apis.io/channels/mobula/wallet/)
 
-### Mobula Multi-Data API
+#### Agentic access (1)
 
-Batched market data for many assets in a single request via comma-separated asset names or contract addresses, returning the same market payload per asset for efficient multi-token dashboards.
+Which operations an agent can call, which act, and which need a human in the loop.
 
-- **Human URL:** [https://docs.mobula.io/rest-api-reference/introduction](https://docs.mobula.io/rest-api-reference/introduction)
-- **Base URL:** `https://api.mobula.io/api/1`
+- [Mobula Agentic Access](https://apis.io/agentic-access/mobula/mobula-agentic-access/)
 
-#### Tags
+#### Collections (5)
 
-- Market Data
-- Batch
-- Price
+Postman and Open Collection request collections.
 
-#### Properties
+- [Mobula API](https://apis.io/collections/mobula/open-mobula/)
+- [Mobula Market API](https://apis.io/collections/mobula/open-mobula-market-api/)
+- [Mobula Market Metadata API](https://apis.io/collections/mobula/open-mobula-metadata-api/)
+- [Mobula Market Search API](https://apis.io/collections/mobula/open-mobula-search-api/)
+- [Mobula Market Wallet API](https://apis.io/collections/mobula/open-mobula-wallet-api/)
 
-- [Documentation](https://docs.mobula.io/rest-api-reference/introduction)
-- [OpenAPI](openapi/mobula-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/mobula.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/mobula.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### Governance rules (1)
 
-### Mobula Market History API
+Spectral rulesets for the provider's contracts.
 
-Historical price time series for an asset over a from/to range at a chosen granularity, returning ordered [timestamp, price] points for charting and backtesting.
+- [Mobula — asyncapi rules](https://apis.io/rules/mobula/mobula-asyncapi-spectral-rules/)
 
-- **Human URL:** [https://docs.mobula.io/rest-api-reference/introduction](https://docs.mobula.io/rest-api-reference/introduction)
-- **Base URL:** `https://api.mobula.io/api/1`
+#### Security (2)
 
-#### Tags
+Authentication, trust centre, and vulnerability disclosure.
 
-- History
-- Time Series
-- Price
+- [Mobula Authentication](https://apis.io/security/mobula/mobula-authentication/)
+- [Mobula Domain Security](https://apis.io/security/mobula/mobula-domain-security/)
 
-#### Properties
+#### Plans and pricing (1)
 
-- [Documentation](https://docs.mobula.io/rest-api-reference/introduction)
-- [OpenAPI](openapi/mobula-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/mobula.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/mobula.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Published plans, tiers and prices.
 
-### Mobula Pairs and OHLCV API
+- [Mobula Plans Pricing](https://apis.io/plans/mobula/mobula-plans-pricing/)
 
-Trading pairs for a token across DEXes plus OHLCV (open/high/low/close/volume) candle history per pair, keyed by asset or pair address, blockchain, and period.
+#### Rate limits (1)
 
-- **Human URL:** [https://docs.mobula.io/rest-api-reference/introduction](https://docs.mobula.io/rest-api-reference/introduction)
-- **Base URL:** `https://api.mobula.io/api/1`
+Published request limits.
 
-#### Tags
+- [Mobula Rate Limits](https://apis.io/rate-limits/mobula/mobula-rate-limits/)
 
-- Pairs
-- OHLCV
-- Candles
+#### FinOps (1)
 
-#### Properties
+What the API costs to run, by operation.
 
-- [Documentation](https://docs.mobula.io/rest-api-reference/introduction)
-- [OpenAPI](openapi/mobula-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/mobula.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/mobula.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Mobula Finops](https://apis.io/finops/mobula/mobula-finops/)
 
-### Mobula Metadata API
+## Where to find this API
 
-On-chain asset and token metadata - name, symbol, logo, description, website and social links, categories, and multichain contract addresses with decimals.
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-- **Human URL:** [https://docs.mobula.io/rest-api-reference/introduction](https://docs.mobula.io/rest-api-reference/introduction)
-- **Base URL:** `https://api.mobula.io/api/1`
-
-#### Tags
-
-- Metadata
-- Assets
-- Tokens
-
-#### Properties
-
-- [Documentation](https://docs.mobula.io/rest-api-reference/introduction)
-- [OpenAPI](openapi/mobula-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/mobula.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/mobula.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Mobula Wallet Portfolio API
-
-Full multichain portfolio for one or more wallet addresses - total balance, per-asset token balances, USD estimates, allocations, cross-chain holdings, and optional realized/unrealized PnL.
-
-- **Human URL:** [https://docs.mobula.io/rest-api-reference/endpoint/wallet-portfolio](https://docs.mobula.io/rest-api-reference/endpoint/wallet-portfolio)
-- **Base URL:** `https://api.mobula.io/api/1`
-
-#### Tags
-
-- Wallet
-- Portfolio
-- Multichain
-
-#### Properties
-
-- [Documentation](https://docs.mobula.io/rest-api-reference/endpoint/wallet-portfolio)
-- [OpenAPI](openapi/mobula-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/mobula.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/mobula.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Mobula Wallet History and Transactions API
-
-Historical net-worth time series for a wallet plus a normalized, decoded transaction and transfer feed across chains, filterable by blockchains and time range.
-
-- **Human URL:** [https://docs.mobula.io/rest-api-reference/introduction](https://docs.mobula.io/rest-api-reference/introduction)
-- **Base URL:** `https://api.mobula.io/api/1`
-
-#### Tags
-
-- Wallet
-- History
-- Transactions
-
-#### Properties
-
-- [Documentation](https://docs.mobula.io/rest-api-reference/introduction)
-- [OpenAPI](openapi/mobula-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/mobula.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/mobula.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Mobula Search and Query API
-
-Universal search over tokens, assets, and wallets by name, symbol, or address, plus a filterable market query for screening assets by liquidity, volume, market cap, and other criteria.
-
-- **Human URL:** [https://docs.mobula.io/rest-api-reference/introduction](https://docs.mobula.io/rest-api-reference/introduction)
-- **Base URL:** `https://api.mobula.io/api/1`
-
-#### Tags
-
-- Search
-- Query
-- Discovery
-
-#### Properties
-
-- [Documentation](https://docs.mobula.io/rest-api-reference/introduction)
-- [OpenAPI](openapi/mobula-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/mobula.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/mobula.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Mobula Realtime Feed API
-
-WebSocket streams for live price, volume, and market metrics across up to 100 assets, plus wallet-portfolio balance updates, pushed roughly every 5 seconds with no caching. Available on Growth and Enterprise plans.
-
-- **Human URL:** [https://docs.mobula.io/indexing-stream/stream/websocket/wss-market-data](https://docs.mobula.io/indexing-stream/stream/websocket/wss-market-data)
-- **Base URL:** `wss://api.mobula.io`
-
-#### Tags
-
-- Real Time
-- WebSocket
-- Streaming
-
-#### Properties
-
-- [Documentation](https://docs.mobula.io/indexing-stream/stream/websocket/wss-market-data)
-- [OpenAPI](openapi/mobula-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [AsyncAPI](asyncapi/mobula-asyncapi.yml) — [AsyncAPI Specification](https://www.asyncapi.com/docs/reference/specification/latest)
-
-## Common Properties
-
-- [GitHub Organization](https://github.com/mobula-io)
-- [LinkedIn](https://www.linkedin.com/company/mobula)
 - [Website](https://mobula.io/)
 - [Documentation](https://docs.mobula.io)
-- [Plans](plans/mobula-plans-pricing.yml)
-- [Rate Limits](rate-limits/mobula-rate-limits.yml)
-- [Fin Ops](finops/mobula-finops.yml)
+- [Blog](https://blog.mobula.io/feed)
+- [GitHub](https://github.com/mobula-io)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 30.7** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 58.5 |
+| Contract governance | 13.6 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 31.0 |
+| Access clarity | 7.9 |
+
+**Agent readiness 22.0** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | na |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | na |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | derived (partial credit) |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | na |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 10.7** — Payments
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/mobula/](https://apis.io/providers/mobula/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Mobula: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/mobula/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
